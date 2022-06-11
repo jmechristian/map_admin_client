@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector, useSlice } from 'react-redux';
+import { setPin } from '../data/pinSlice';
 import Map, { Popup, useControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -19,7 +21,9 @@ const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
 
 const ProjectMap = () => {
-  const [marker, setMarker] = useState();
+  // const [marker, setMarker] = useState();
+  const marker = useSelector((state) => state.pin);
+  const dispatch = useDispatch();
 
   const [viewport, setViewport] = useState({
     longitude: -77.04101184657091,
@@ -39,7 +43,7 @@ const ProjectMap = () => {
         ctrl.on('result', (evt) => {
           console.log(evt);
           const { result } = evt;
-          setMarker(result);
+          dispatch(setPin(result));
         });
         return ctrl;
       },
@@ -62,7 +66,7 @@ const ProjectMap = () => {
         <Popup
           longitude={marker.center[0]}
           latitude={marker.center[1]}
-          onClose={() => setMarker(null)}
+          onClose={() => dispatch(setPin(null))}
         >
           <Container>
             <Box py={'2'}>

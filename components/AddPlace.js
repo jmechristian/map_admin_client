@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -15,6 +16,7 @@ import {
   DrawerBody,
   Select,
   Spacer,
+  Text,
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
@@ -27,6 +29,9 @@ const AddPlace = ({ open, closeDrawer, place }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
+  const [department, setDepartment] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (place) {
@@ -36,17 +41,66 @@ const AddPlace = ({ open, closeDrawer, place }) => {
     }
   }, [place]);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    const formData = {
-      lng: lng,
-      lat: lat,
-      name: name,
-      address: address,
-      description: description,
+    const data = {
+      data: {
+        lng: lng,
+        lat: lat,
+        name: name,
+        address: address,
+        description: description,
+        department: department,
+      },
     };
 
-    console.log(formData);
+    if (department === '') {
+      setError('Please choose a department');
+    } else if (name === '') {
+      setError('Please add a project name');
+    } else {
+      setIsLoading(true);
+      const res = await axios
+        .post('http://localhost:1337/api/projects', data, {
+          headers: { 'content-type': 'application/json' },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
+
+    setIsLoading(false);
+  };
+
+  const nameHandler = (e) => {
+    setName(e.target.value);
+    setError(null);
+  };
+
+  const selectHandler = (e) => {
+    if (e.target.value === 'architecture') {
+      setDepartment(1);
+      setError(null);
+    }
+
+    if (e.target.value === 'commercial') {
+      setDepartment(2);
+      setError(null);
+    }
+
+    if (e.target.value === 'residential') {
+      setDepartment(3);
+      setError(null);
+    }
+
+    if (e.target.value === 'akres') {
+      setDepartment(4);
+      setError(null);
+    }
+
+    if (e.target.value === 'branding') {
+      setDepartment(5);
+      setError(null);
+    }
   };
 
   return (
@@ -89,17 +143,22 @@ const AddPlace = ({ open, closeDrawer, place }) => {
                       id='name'
                       type='name'
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={nameHandler}
                     />
                     <FormHelperText>Required</FormHelperText>
                   </Box>
                   <Box py={'2'}>
                     <FormLabel htmlFor='dept'>Department</FormLabel>
-                    <Select placeholder='Select Department' id='dept'>
-                      <option value='option1'>Architecture</option>
-                      <option value='option2'>Commercial Interiors</option>
-                      <option value='option3'>AkRes</option>
-                      <option value='option3'>Branding &amp; Marketing</option>
+                    <Select
+                      placeholder='Select Department'
+                      id='dept'
+                      onChange={selectHandler}
+                    >
+                      <option value='architecture'>Architecture</option>
+                      <option value='commercial'>Commercial Interiors</option>
+                      <option value='residential'>Residential Interiors</option>
+                      <option value='akres'>AkRes</option>
+                      <option value='branding'>Branding &amp; Marketing</option>
                     </Select>
                     <FormHelperText>Required</FormHelperText>
                   </Box>
@@ -111,6 +170,7 @@ const AddPlace = ({ open, closeDrawer, place }) => {
                       value={place ? place.place_name : ''}
                       disabled={true}
                     />
+                    <FormHelperText>Required</FormHelperText>
                   </Box>
                   <Box py={'2'}>
                     <FormLabel htmlFor='name'>
@@ -128,9 +188,16 @@ const AddPlace = ({ open, closeDrawer, place }) => {
                   my={'4'}
                   size={'lg'}
                   onClick={submitHandler}
+                  isLoading={isLoading}
+                  loadingText='Submitting...'
                 >
                   Add to Map
                 </Button>
+                <Box>
+                  <Text color='red.500' fontStyle='italic'>
+                    {error ? error : ''}
+                  </Text>
+                </Box>
               </Flex>
             </Box>
           </DrawerBody>

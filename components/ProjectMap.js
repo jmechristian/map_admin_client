@@ -23,7 +23,7 @@ const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
 
 const ProjectMap = () => {
-  // const [marker, setMarker] = useState();
+  const [isOpen, setIsOpen] = useState(false);
   const marker = useSelector((state) => state.pin);
   const dispatch = useDispatch();
 
@@ -55,9 +55,13 @@ const ProjectMap = () => {
     );
   };
 
+  const drawerHandler = (value) => {
+    setIsOpen(value);
+  };
+
   return (
     <>
-      <AddPlace />
+      <AddPlace open={isOpen} closeDrawer={drawerHandler} place={marker} />
       <Map
         {...viewport}
         onMove={(event) => setViewport(event.viewState)}
@@ -87,6 +91,10 @@ const ProjectMap = () => {
                     colorScheme='cyan'
                     py={'2'}
                     px={'4'}
+                    onClick={() => {
+                      drawerHandler(true);
+                    }}
+                    css={{ cursor: 'pointer' }}
                   >
                     <TagLeftIcon boxSize='12px' as={AddIcon} />
                     <TagLabel>Add to Map</TagLabel>

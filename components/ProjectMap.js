@@ -39,8 +39,8 @@ const ProjectMap = () => {
     () =>
       markers.map((mark) => (
         <Marker
-          longitude={mark.attributes.lat}
-          latitude={mark.attributes.lng}
+          longitude={mark.attributes.lng}
+          latitude={mark.attributes.lat}
           key={mark.id}
           anchor='bottom'
         >

@@ -1,8 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import pinReducer from './pinSlice';
-import { useReducer } from 'react';
+import userReducer from './userSlice';
+
+const rootReducer = combineReducers({
+  pin: pinReducer,
+  user: userReducer,
+});
 
 export default configureStore({
-  reducer: pinReducer,
-  user: useReducer,
+  reducer: rootReducer,
 });

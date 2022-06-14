@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import {
   Box,
@@ -32,6 +33,7 @@ const AddPlace = ({ open, closeDrawer, place }) => {
   const [department, setDepartment] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     if (place) {
@@ -62,7 +64,10 @@ const AddPlace = ({ open, closeDrawer, place }) => {
       setIsLoading(true);
       const res = await axios
         .post('http://localhost:1337/api/projects', data, {
-          headers: { 'content-type': 'application/json' },
+          headers: {
+            'content-type': 'application/json',
+            Authorization: `Bearer ${user.user.jwt}`,
+          },
         })
         .then((res) => console.log(res))
         .catch((err) => console.log(err));
@@ -109,18 +114,21 @@ const AddPlace = ({ open, closeDrawer, place }) => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Add New Project</DrawerHeader>
+          <DrawerHeader fontSize={'3xl'} mb={'2'}>
+            Add New Project
+          </DrawerHeader>
           <DrawerBody>
             <Box height={'100%'}>
               <Flex direction='column'>
                 <FormControl>
-                  <Flex pb={'2'}>
+                  <Flex pb={'3'}>
                     <Box>
                       <FormLabel htmlFor='lng'>Longitude</FormLabel>
                       <Input
                         id='lng'
                         type='lng'
                         disabled={true}
+                        borderColor={'gray.300'}
                         value={place ? place.center[0] : ''}
                       />
                       <FormHelperText>Required</FormHelperText>
@@ -132,27 +140,30 @@ const AddPlace = ({ open, closeDrawer, place }) => {
                         id='lat'
                         type='lat'
                         disabled={true}
+                        borderColor={'gray.300'}
                         value={place ? place.center[1] : ''}
                       />
                       <FormHelperText>Required</FormHelperText>
                     </Box>
                   </Flex>
-                  <Box py={'2'}>
+                  <Box py={'3'}>
                     <FormLabel htmlFor='name'>Project Name</FormLabel>
                     <Input
                       id='name'
                       type='name'
                       value={name}
+                      borderColor={'gray.300'}
                       onChange={nameHandler}
                     />
                     <FormHelperText>Required</FormHelperText>
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={'3'}>
                     <FormLabel htmlFor='dept'>Department</FormLabel>
                     <Select
                       placeholder='Select Department'
                       id='dept'
                       onChange={selectHandler}
+                      borderColor={'gray.300'}
                     >
                       <option value='architecture'>Architecture</option>
                       <option value='commercial'>Commercial Interiors</option>
@@ -162,29 +173,31 @@ const AddPlace = ({ open, closeDrawer, place }) => {
                     </Select>
                     <FormHelperText>Required</FormHelperText>
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={'3'}>
                     <FormLabel htmlFor='address'>Address</FormLabel>
                     <Input
                       id='address'
                       type='address'
+                      borderColor={'gray.300'}
                       value={place ? place.place_name : ''}
                       disabled={true}
                     />
                     <FormHelperText>Required</FormHelperText>
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={'3'}>
                     <FormLabel htmlFor='name'>
                       Project Description (Optional)
                     </FormLabel>
                     <Textarea
                       placeholder='Add optional project description'
                       onChange={(e) => setDescription(e.target.value)}
+                      borderColor={'gray.300'}
                     />
                   </Box>
                 </FormControl>
                 <Button
                   rightIcon={<ArrowForwardIcon />}
-                  colorScheme='teal'
+                  colorScheme='pink'
                   my={'4'}
                   size={'lg'}
                   onClick={submitHandler}

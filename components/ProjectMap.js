@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector, useSlice } from 'react-redux';
+import React, { useState, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setPin } from '../data/pinSlice';
-import Map, { Popup, useControl } from 'react-map-gl';
+import Map, { Popup, useControl, Marker } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -17,6 +17,7 @@ import {
   Drawer,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { LocationMarkerIcon } from '@heroicons/react/solid';
 import AddPlace from './AddPlace';
 
 const MAPBOX_TOKEN =
@@ -24,14 +25,30 @@ const MAPBOX_TOKEN =
 
 const ProjectMap = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const marker = useSelector((state) => state.pin);
+  const marker = useSelector((state) => state.pin.pin);
+  const markers = useSelector((state) => state.pin.allPins);
   const dispatch = useDispatch();
 
   const [viewport, setViewport] = useState({
     longitude: -77.04101184657091,
     latitude: 38.92036921864505,
-    zoom: 10,
+    zoom: 11,
   });
+
+  const pins = useMemo(
+    () =>
+      markers.map((mark) => (
+        <Marker
+          longitude={mark.attributes.lat}
+          latitude={mark.attributes.lng}
+          key={mark.id}
+          anchor='bottom'
+        >
+          <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' />
+        </Marker>
+      )),
+    [markers]
+  );
 
   const GeoCode = (props) => {
     useControl(
@@ -69,6 +86,7 @@ const ProjectMap = () => {
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
         mapboxAccessToken={MAPBOX_TOKEN}
       >
+        {pins}
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
         {marker ? (
           <Popup
@@ -87,8 +105,8 @@ const ProjectMap = () => {
                   <Tag
                     size={'md'}
                     key={'md'}
-                    variant='subtle'
-                    colorScheme='cyan'
+                    variant='solid'
+                    colorScheme='pink'
                     py={'2'}
                     px={'4'}
                     onClick={() => {

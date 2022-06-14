@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { setUser } from '../data/userSlice';
+import axios from 'axios';
 import {
   Box,
   Button,
@@ -11,9 +15,44 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-const signin = () => {
+const Signin = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const submitHandler = useCallback(async () => {
+    setLoading(true);
+    const res = await axios
+      .post('http://localhost:1337/api/auth/local', {
+        identifier: username,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.status == '200') {
+          dispatch(setUser(res.data));
+        }
+      })
+
+      .catch((err) => console.log(err));
+
+    setLoading(false);
+    setUsername('');
+    setPassword('');
+  }, [username, password, dispatch]);
+
   return (
-    <Box width='100%' height='100vh' bg='blue.500'>
+    <Box
+      width='100%'
+      height='100vh'
+      style={{
+        backgroundImage: `url(
+          'https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/login-back-gray.png'
+        )`,
+      }}
+    >
       <Center height='100%'>
         <Box
           bg='white'
@@ -21,7 +60,7 @@ const signin = () => {
           boxShadow='lg'
           width={['80%', '50%', '50%', '40%', '25%']}
         >
-          <Flex direction={'column'} padding={['40px', '52px']}>
+          <Flex direction={'column'} padding={'10%'}>
             <Center width={'100%'} mb='8'>
               <Image
                 src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/ADG_RGB.svg'
@@ -36,29 +75,32 @@ const signin = () => {
                   <Box my='3'>
                     <Input
                       type={'text'}
-                      size={'lg'}
+                      size={['md', 'md', 'lg', 'lg', 'lg']}
                       id='username'
                       placeholder='Enter Username'
                       borderColor={'gray.300'}
+                      onChange={(e) => setUsername(e.target.value)}
                     />
                   </Box>
                   <Box mb='3'>
                     <Input
                       type={'password'}
-                      size={'lg'}
+                      size={['md', 'md', 'lg', 'lg', 'lg']}
                       id='password'
                       placeholder='Enter Password'
                       borderColor={'gray.300'}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </Box>
                 </Flex>
                 <Button
-                  colorScheme='blackAlpha'
+                  colorScheme='pink'
                   mt={'3'}
-                  mb={'8'}
+                  mb={'6'}
                   size={'lg'}
                   rightIcon={<ArrowForwardIcon />}
                   width='100%'
+                  onClick={submitHandler}
                 >
                   Submit
                 </Button>
@@ -71,4 +113,4 @@ const signin = () => {
   );
 };
 
-export default signin;
+export default Signin;

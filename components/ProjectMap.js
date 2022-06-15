@@ -39,7 +39,7 @@ const ProjectMap = ({ places }) => {
   const initialView = {
     longitude: -77.04101184657091,
     latitude: 38.92036921864505,
-    zoom: 12,
+    zoom: 10,
   };
 
   const GeoCode = (props) => {

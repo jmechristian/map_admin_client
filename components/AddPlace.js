@@ -24,7 +24,14 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
+const AddPlace = ({
+  open,
+  closeDrawer,
+  place,
+  setView,
+  updatePins,
+  loadToast,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [lng, setLng] = useState('');
   const [lat, setLat] = useState('');
@@ -82,6 +89,7 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
             setView();
             dispatch(setPin(null));
             updatePins();
+            loadToast();
           }
         })
         .catch((err) => console.log(err));

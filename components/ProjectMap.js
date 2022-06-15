@@ -16,10 +16,9 @@ import {
   TagLeftIcon,
   TagLabel,
   Text,
-  Drawer,
+  useToast,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { LocationMarkerIcon } from '@heroicons/react/solid';
 import AddPlace from './AddPlace';
 
 const MAPBOX_TOKEN =
@@ -35,11 +34,12 @@ const ProjectMap = ({ places }) => {
   const [allPins, setPins] = useState(places);
   const marker = useSelector((state) => state.pin.pin);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const initialView = {
     longitude: -77.04101184657091,
     latitude: 38.92036921864505,
-    zoom: 11,
+    zoom: 12,
   };
 
   const GeoCode = (props) => {
@@ -68,6 +68,19 @@ const ProjectMap = ({ places }) => {
     setIsOpen(value);
   };
 
+  const loadToast = () => {
+    return toast({
+      title: 'Pin Successfully Created!',
+      description: `Pin for ${
+        marker ? marker.address : 'marker'
+      } has been created`,
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
+
   const pins = useMemo(
     () =>
       allPins.map((mark) => (
@@ -78,7 +91,6 @@ const ProjectMap = ({ places }) => {
           anchor='bottom'
         >
           <MarkerPin />
-          {/* <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' /> */}
         </Marker>
       )),
     [allPins]
@@ -100,6 +112,7 @@ const ProjectMap = ({ places }) => {
         place={marker}
         setView={() => setViewport(initialView)}
         updatePins={() => getUpdatedAllPins()}
+        loadToast={() => loadToast()}
       />
       <Map
         {...viewport}

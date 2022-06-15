@@ -70,7 +70,7 @@ const Signin = () => {
           <Flex direction={'column'} padding={'10%'}>
             <Center width={'100%'} mb='8'>
               <Image
-                src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/ADG_RGB.svg'
+                src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/ADG_RGB.png'
                 alt='ADG Logo'
                 width='100%'
                 objectFit={'contain'}
@@ -86,6 +86,7 @@ const Signin = () => {
                       id='username'
                       placeholder='Enter Username'
                       borderColor={'gray.300'}
+                      focusBorderColor={'brand.900'}
                       onChange={(e) => setUsername(e.target.value)}
                     />
                   </Box>
@@ -96,18 +97,23 @@ const Signin = () => {
                       id='password'
                       placeholder='Enter Password'
                       borderColor={'gray.300'}
+                      focusBorderColor={'brand.900'}
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Box>
                 </Flex>
                 <Button
-                  colorScheme='pink'
+                  bg='brand.900'
+                  color='white'
+                  _hover={{ bg: 'brand.900' }}
                   mt={'3'}
                   mb={'6'}
                   size={'lg'}
                   rightIcon={<ArrowForwardIcon />}
                   width='100%'
                   onClick={submitHandler}
+                  isLoading={loading}
+                  loadingText='Signing In...'
                 >
                   Submit
                 </Button>

@@ -66,12 +66,16 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
     } else {
       setIsLoading(true);
       const res = await axios
-        .post('http://localhost:1337/api/projects', data, {
-          headers: {
-            'content-type': 'application/json',
-            Authorization: `Bearer ${user.user.jwt}`,
-          },
-        })
+        .post(
+          'https://adg-projects-hs6ir.ondigitalocean.app/api/projects',
+          data,
+          {
+            headers: {
+              'content-type': 'application/json',
+              Authorization: `Bearer ${user.user.jwt}`,
+            },
+          }
+        )
         .then((res) => {
           if (res.status == '200') {
             closeDrawer(false);

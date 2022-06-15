@@ -83,7 +83,9 @@ const ProjectMap = ({ places }) => {
   );
 
   const getUpdatedAllPins = useCallback(async () => {
-    const res = await axios.get('http://localhost:1337/api/projects');
+    const res = await axios.get(
+      'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
+    );
     dispatch(setAllPins(res.data.data));
     setPins(res.data.data);
   }, [dispatch]);

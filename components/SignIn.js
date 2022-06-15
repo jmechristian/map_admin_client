@@ -27,7 +27,7 @@ const Signin = () => {
   const submitHandler = useCallback(async () => {
     setLoading(true);
     const res = await axios
-      .post('http://localhost:1337/api/auth/local', {
+      .post('https://adg-projects-hs6ir.ondigitalocean.app/api/auth/local', {
         identifier: username,
         password: password,
       })

@@ -35,7 +35,9 @@ export default function Home({ places }) {
 }
 
 export async function getServerSideProps() {
-  const res = await axios.get('http://localhost:1337/api/projects');
+  const res = await axios.get(
+    'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
+  );
   const places = res.data.data;
 
   return {

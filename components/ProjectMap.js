@@ -66,6 +66,21 @@ const ProjectMap = ({ places }) => {
     setIsOpen(value);
   };
 
+  const pins = useMemo(
+    () =>
+      places.map((mark) => (
+        <Marker
+          longitude={mark.attributes.lng}
+          latitude={mark.attributes.lat}
+          key={mark.id}
+          anchor='bottom'
+        >
+          <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' />
+        </Marker>
+      )),
+    [places]
+  );
+
   return (
     <>
       <AddPlace open={isOpen} closeDrawer={drawerHandler} place={marker} />
@@ -76,25 +91,42 @@ const ProjectMap = ({ places }) => {
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        {markers ? (
-          markers.map((mark) => (
-            <Marker
-              longitude={mark.attributes.lng}
-              latitude={mark.attributes.lat}
-              key={mark.id}
-              anchor='bottom'
-            >
-              <LocationMarkerIcon
-                width={'40px'}
-                height={'40px'}
-                fill='#d31b5d'
-              />
-            </Marker>
-          ))
-        ) : (
-          <Marker></Marker>
-        )}
+        {pins}
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
+        {marker ? (
+          <Popup
+            longitude={marker.center[0]}
+            latitude={marker.center[1]}
+            onClose={() => dispatch(setPin(null))}
+          >
+            <Container>
+              <Box py={'2'}>
+                <Text fontSize={'medium'} lineHeight={'5'}>
+                  {marker.place_name}
+                </Text>
+              </Box>
+              <Box py={'2'}>
+                <HStack spacing={'4'}>
+                  <Tag
+                    size={'md'}
+                    key={'md'}
+                    variant='solid'
+                    colorScheme='pink'
+                    py={'2'}
+                    px={'4'}
+                    onClick={() => {
+                      drawerHandler(true);
+                    }}
+                    css={{ cursor: 'pointer' }}
+                  >
+                    <TagLeftIcon boxSize='12px' as={AddIcon} />
+                    <TagLabel>Add to Map</TagLabel>
+                  </Tag>
+                </HStack>
+              </Box>
+            </Container>
+          </Popup>
+        ) : null}
       </Map>
     </>
   );

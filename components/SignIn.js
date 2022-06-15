@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 import { setUser } from '../data/userSlice';
+import { useCookies } from 'react-cookie';
+
 import axios from 'axios';
 import {
   Box,
@@ -19,7 +20,7 @@ const Signin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [cookies, setCookie] = useCookies(['adg-auth']);
   const dispatch = useDispatch();
 
   const submitHandler = useCallback(async () => {
@@ -33,15 +34,15 @@ const Signin = () => {
         console.log(res);
         if (res.status == '200') {
           dispatch(setUser(res.data));
+          setCookie('adg-auth', 'auth', { path: '/' });
         }
       })
-
       .catch((err) => console.log(err));
 
     setLoading(false);
     setUsername('');
     setPassword('');
-  }, [username, password, dispatch]);
+  }, [username, password, dispatch, setCookie]);
 
   return (
     <Box

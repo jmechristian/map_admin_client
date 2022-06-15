@@ -137,7 +137,7 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                 <FormControl>
                   <Flex pb={'3'}>
                     <Box>
-                      <FormLabel htmlFor='lng'>Longitude</FormLabel>
+                      <FormLabel htmlFor='lng'>Longitude*</FormLabel>
                       <Input
                         id='lng'
                         type='lng'
@@ -145,11 +145,10 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                         borderColor={'gray.300'}
                         value={place ? place.center[0] : ''}
                       />
-                      <FormHelperText>Required</FormHelperText>
                     </Box>
                     <Spacer />
                     <Box>
-                      <FormLabel htmlFor='lat'>Latitude</FormLabel>
+                      <FormLabel htmlFor='lat'>Latitude*</FormLabel>
                       <Input
                         id='lat'
                         type='lat'
@@ -157,11 +156,10 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                         borderColor={'gray.300'}
                         value={place ? place.center[1] : ''}
                       />
-                      <FormHelperText>Required</FormHelperText>
                     </Box>
                   </Flex>
                   <Box py={'3'}>
-                    <FormLabel htmlFor='name'>Project Name</FormLabel>
+                    <FormLabel htmlFor='name'>Project Name*</FormLabel>
                     <Input
                       id='name'
                       type='name'
@@ -169,10 +167,9 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                       borderColor={'gray.300'}
                       onChange={nameHandler}
                     />
-                    <FormHelperText>Required</FormHelperText>
                   </Box>
                   <Box py={'3'}>
-                    <FormLabel htmlFor='dept'>Department</FormLabel>
+                    <FormLabel htmlFor='dept'>Department*</FormLabel>
                     <Select
                       placeholder='Select Department'
                       id='dept'
@@ -185,10 +182,9 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                       <option value='akres'>AkRes</option>
                       <option value='branding'>Branding &amp; Marketing</option>
                     </Select>
-                    <FormHelperText>Required</FormHelperText>
                   </Box>
                   <Box py={'3'}>
-                    <FormLabel htmlFor='address'>Address</FormLabel>
+                    <FormLabel htmlFor='address'>Address*</FormLabel>
                     <Input
                       id='address'
                       type='address'
@@ -196,7 +192,6 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                       value={place ? place.place_name : ''}
                       disabled={true}
                     />
-                    <FormHelperText>Required</FormHelperText>
                   </Box>
                   <Box py={'3'}>
                     <FormLabel htmlFor='name'>
@@ -208,11 +203,13 @@ const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
                       borderColor={'gray.300'}
                     />
                   </Box>
+                  <FormHelperText>* = Required</FormHelperText>
                 </FormControl>
                 <Button
                   rightIcon={<ArrowForwardIcon />}
-                  colorScheme='pink'
-                  my={'4'}
+                  color={'white'}
+                  bg={'brand.900'}
+                  my={'6'}
                   size={'lg'}
                   onClick={submitHandler}
                   isLoading={isLoading}

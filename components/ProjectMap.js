@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllPins, setPin } from '../data/pinSlice';
 import Map, { Popup, useControl, Marker } from 'react-map-gl';
+import MarkerPin from './MarkerPin';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -76,7 +77,8 @@ const ProjectMap = ({ places }) => {
           key={mark.id}
           anchor='bottom'
         >
-          <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' />
+          <MarkerPin />
+          {/* <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' /> */}
         </Marker>
       )),
     [allPins]
@@ -126,7 +128,8 @@ const ProjectMap = ({ places }) => {
                     size={'md'}
                     key={'md'}
                     variant='solid'
-                    colorScheme='pink'
+                    color={'white'}
+                    bg={'brand.900'}
                     py={'2'}
                     px={'4'}
                     onClick={() => {

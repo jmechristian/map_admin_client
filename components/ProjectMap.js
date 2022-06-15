@@ -40,7 +40,7 @@ const ProjectMap = ({ places }) => {
   const initialView = {
     longitude: -77.04101184657091,
     latitude: 38.92036921864505,
-    zoom: 10,
+    zoom: 11,
   };
 
   const GeoCode = (props) => {
@@ -76,7 +76,7 @@ const ProjectMap = ({ places }) => {
         marker ? marker.address : 'marker'
       } has been created`,
       status: 'success',
-      duration: 3000,
+      duration: 5000,
       isClosable: true,
       position: 'top',
     });
@@ -121,6 +121,7 @@ const ProjectMap = ({ places }) => {
           latitude: 38.92036921864505,
           zoom: 11,
         }}
+        {...viewState}
         onMove={(event) => setViewState(event.viewState)}
         style={{ width: '100%', height: '100%' }}
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'

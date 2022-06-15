@@ -111,7 +111,7 @@ const ProjectMap = ({ places }) => {
         open={isOpen}
         closeDrawer={drawerHandler}
         place={marker}
-        setView={() => setViewport(initialView)}
+        setView={() => setViewState(initialView)}
         updatePins={() => getUpdatedAllPins()}
         loadToast={() => loadToast()}
       />

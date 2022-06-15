@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPin } from '../data/pinSlice';
 import axios from 'axios';
 import {
   Box,
@@ -23,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
-const AddPlace = ({ open, closeDrawer, place }) => {
+const AddPlace = ({ open, closeDrawer, place, setView, updatePins }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [lng, setLng] = useState('');
   const [lat, setLat] = useState('');
@@ -34,6 +35,8 @@ const AddPlace = ({ open, closeDrawer, place }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (place) {
@@ -69,7 +72,14 @@ const AddPlace = ({ open, closeDrawer, place }) => {
             Authorization: `Bearer ${user.user.jwt}`,
           },
         })
-        .then((res) => console.log(res))
+        .then((res) => {
+          if (res.status == '200') {
+            closeDrawer(false);
+            setView();
+            dispatch(setPin(null));
+            updatePins();
+          }
+        })
         .catch((err) => console.log(err));
     }
 

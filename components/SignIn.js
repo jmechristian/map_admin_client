@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../data/userSlice';
 import { useCookies } from 'react-cookie';
 
@@ -21,6 +21,7 @@ const Signin = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [cookies, setCookie] = useCookies(['adg-auth']);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const submitHandler = useCallback(async () => {
@@ -31,18 +32,23 @@ const Signin = () => {
         password: password,
       })
       .then((res) => {
-        console.log(res);
         if (res.status == '200') {
           dispatch(setUser(res.data));
-          setCookie('adg-auth', 'auth', { path: '/' });
         }
       })
       .catch((err) => console.log(err));
-
     setLoading(false);
     setUsername('');
     setPassword('');
-  }, [username, password, dispatch, setCookie]);
+  }, [username, password, dispatch]);
+
+  useEffect(() => {
+    if (user.user && !cookies['adg-auth']) {
+      setCookie(
+        setCookie('adg-auth', user.user, { path: '/', maxAge: 1209600 })
+      );
+    }
+  });
 
   return (
     <Box

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllPins, setPin } from '../data/pinSlice';
 import Map, { Popup, useControl, Marker } from 'react-map-gl';
@@ -26,19 +27,19 @@ const MAPBOX_TOKEN =
 const ProjectMap = ({ places }) => {
   useEffect(() => {
     dispatch(setAllPins(places));
-    console.log(places);
   }, [dispatch, places]);
 
   const [isOpen, setIsOpen] = useState(false);
+  const [viewport, setViewport] = useState(initialView);
+  const [allPins, setPins] = useState(places);
   const marker = useSelector((state) => state.pin.pin);
-  const markers = useSelector((state) => state.pin.allPins);
   const dispatch = useDispatch();
 
-  const [viewport, setViewport] = useState({
+  const initialView = {
     longitude: -77.04101184657091,
     latitude: 38.92036921864505,
     zoom: 11,
-  });
+  };
 
   const GeoCode = (props) => {
     useControl(
@@ -68,7 +69,7 @@ const ProjectMap = ({ places }) => {
 
   const pins = useMemo(
     () =>
-      places.map((mark) => (
+      allPins.map((mark) => (
         <Marker
           longitude={mark.attributes.lng}
           latitude={mark.attributes.lat}
@@ -78,12 +79,24 @@ const ProjectMap = ({ places }) => {
           <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' />
         </Marker>
       )),
-    [places]
+    [allPins]
   );
+
+  const getUpdatedAllPins = useCallback(async () => {
+    const res = await axios.get('http://localhost:1337/api/projects');
+    dispatch(setAllPins(res.data.data));
+    setPins(res.data.data);
+  }, [dispatch]);
 
   return (
     <>
-      <AddPlace open={isOpen} closeDrawer={drawerHandler} place={marker} />
+      <AddPlace
+        open={isOpen}
+        closeDrawer={drawerHandler}
+        place={marker}
+        setView={() => setViewport(initialView)}
+        updatePins={() => getUpdatedAllPins()}
+      />
       <Map
         {...viewport}
         onMove={(event) => setViewport(event.viewState)}

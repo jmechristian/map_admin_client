@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPin } from '../data/pinSlice';
+import { setAllPins, setPin } from '../data/pinSlice';
 import Map, { Popup, useControl, Marker } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -23,7 +23,12 @@ import AddPlace from './AddPlace';
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
 
-const ProjectMap = () => {
+const ProjectMap = ({ places }) => {
+  useEffect(() => {
+    dispatch(setAllPins(places));
+    console.log(places);
+  }, [dispatch, places]);
+
   const [isOpen, setIsOpen] = useState(false);
   const marker = useSelector((state) => state.pin.pin);
   const markers = useSelector((state) => state.pin.allPins);
@@ -34,21 +39,6 @@ const ProjectMap = () => {
     latitude: 38.92036921864505,
     zoom: 11,
   });
-
-  const pins = useMemo(
-    () =>
-      markers.map((mark) => (
-        <Marker
-          longitude={mark.attributes.lng}
-          latitude={mark.attributes.lat}
-          key={mark.id}
-          anchor='bottom'
-        >
-          <LocationMarkerIcon width={'40px'} height={'40px'} fill='#d31b5d' />
-        </Marker>
-      )),
-    [markers]
-  );
 
   const GeoCode = (props) => {
     useControl(
@@ -86,42 +76,25 @@ const ProjectMap = () => {
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        {pins}
+        {markers ? (
+          markers.map((mark) => (
+            <Marker
+              longitude={mark.attributes.lng}
+              latitude={mark.attributes.lat}
+              key={mark.id}
+              anchor='bottom'
+            >
+              <LocationMarkerIcon
+                width={'40px'}
+                height={'40px'}
+                fill='#d31b5d'
+              />
+            </Marker>
+          ))
+        ) : (
+          <Marker></Marker>
+        )}
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
-        {marker ? (
-          <Popup
-            longitude={marker.center[0]}
-            latitude={marker.center[1]}
-            onClose={() => dispatch(setPin(null))}
-          >
-            <Container>
-              <Box py={'2'}>
-                <Text fontSize={'medium'} lineHeight={'5'}>
-                  {marker.place_name}
-                </Text>
-              </Box>
-              <Box py={'2'}>
-                <HStack spacing={'4'}>
-                  <Tag
-                    size={'md'}
-                    key={'md'}
-                    variant='solid'
-                    colorScheme='pink'
-                    py={'2'}
-                    px={'4'}
-                    onClick={() => {
-                      drawerHandler(true);
-                    }}
-                    css={{ cursor: 'pointer' }}
-                  >
-                    <TagLeftIcon boxSize='12px' as={AddIcon} />
-                    <TagLabel>Add to Map</TagLabel>
-                  </Tag>
-                </HStack>
-              </Box>
-            </Container>
-          </Popup>
-        ) : null}
       </Map>
     </>
   );

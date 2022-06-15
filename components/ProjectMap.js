@@ -27,10 +27,11 @@ const MAPBOX_TOKEN =
 const ProjectMap = ({ places }) => {
   useEffect(() => {
     dispatch(setAllPins(places));
-  }, [dispatch, places]);
+    console.log({ ...viewState });
+  }, [dispatch, places, viewState]);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [viewport, setViewport] = useState(initialView);
+  const [viewState, setViewState] = useState(initialView);
   const [allPins, setPins] = useState(places);
   const marker = useSelector((state) => state.pin.pin);
   const dispatch = useDispatch();
@@ -115,8 +116,12 @@ const ProjectMap = ({ places }) => {
         loadToast={() => loadToast()}
       />
       <Map
-        {...viewport}
-        onMove={(event) => setViewport(event.viewState)}
+        initialViewState={{
+          longitude: -77.04101184657091,
+          latitude: 38.92036921864505,
+          zoom: 11,
+        }}
+        onMove={(event) => setViewState(event.viewState)}
         style={{ width: '100%', height: '100%' }}
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
         mapboxAccessToken={MAPBOX_TOKEN}

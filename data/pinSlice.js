@@ -6,10 +6,14 @@ export const pinSlice = createSlice({
   initialState: {
     pin: null,
     allPins: null,
+    selectedPin: null,
   },
   reducers: {
     setPin: (state, action) => {
       state.pin = action.payload;
+    },
+    setSelectedPin: (state, action) => {
+      state.selectedPin = action.payload;
     },
     setAllPins: (state, action) => {
       state.allPins = action.payload;
@@ -17,6 +21,6 @@ export const pinSlice = createSlice({
   },
 });
 
-export const { setPin, setAllPins } = pinSlice.actions;
+export const { setPin, setAllPins, setSelectedPin } = pinSlice.actions;
 
 export default pinSlice.reducer;

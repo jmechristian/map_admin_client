@@ -27,12 +27,12 @@ const MAPBOX_TOKEN =
 const ProjectMap = ({ places }) => {
   useEffect(() => {
     dispatch(setAllPins(places));
-    console.log({ ...viewState });
   }, [dispatch, places, viewState]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [viewState, setViewState] = useState(initialView);
   const [allPins, setPins] = useState(places);
+  const [popupInfo, setPopupInfo] = useState(null);
   const marker = useSelector((state) => state.pin.pin);
   const dispatch = useDispatch();
   const toast = useToast();
@@ -53,7 +53,6 @@ const ProjectMap = ({ places }) => {
           mapboxgl: mapboxgl,
         });
         ctrl.on('result', (evt) => {
-          console.log(evt);
           const { result } = evt;
           dispatch(setPin(result));
         });
@@ -82,6 +81,14 @@ const ProjectMap = ({ places }) => {
     });
   };
 
+  const getUpdatedAllPins = useCallback(async () => {
+    const res = await axios.get(
+      'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
+    );
+    dispatch(setAllPins(res.data.data));
+    setPins(res.data.data);
+  }, [dispatch]);
+
   const pins = useMemo(
     () =>
       allPins.map((mark) => (
@@ -90,20 +97,18 @@ const ProjectMap = ({ places }) => {
           latitude={mark.attributes.lat}
           key={mark.id}
           anchor='bottom'
+          onClick={(e) => {
+            // If we let the click event propagates to the map, it will immediately close the popup
+            // with `closeOnClick: true`
+            e.originalEvent.stopPropagation();
+            setPopupInfo(mark);
+          }}
         >
-          <MarkerPin />
+          <MarkerPin place={mark} />
         </Marker>
       )),
-    [allPins]
+    []
   );
-
-  const getUpdatedAllPins = useCallback(async () => {
-    const res = await axios.get(
-      'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
-    );
-    dispatch(setAllPins(res.data.data));
-    setPins(res.data.data);
-  }, [dispatch]);
 
   return (
     <>
@@ -127,8 +132,22 @@ const ProjectMap = ({ places }) => {
         mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
         mapboxAccessToken={MAPBOX_TOKEN}
       >
-        {pins}
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
+        {pins}
+        {popupInfo && (
+          <Popup
+            anchor='bottom'
+            longitude={popupInfo.attributes.lng}
+            latitude={popupInfo.attributes.lat}
+            onClose={() => setPopupInfo(null)}
+            offset={40}
+            focusAfterOpen='false'
+          >
+            <div>
+              <h3>{popupInfo.attributes.name}</h3>
+            </div>
+          </Popup>
+        )}
         {marker ? (
           <Popup
             longitude={marker.center[0]}

@@ -107,7 +107,7 @@ const ProjectMap = ({ places }) => {
           <MarkerPin place={mark} />
         </Marker>
       )),
-    []
+    [allPins]
   );
 
   return (

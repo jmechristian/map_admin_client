@@ -3,6 +3,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import store from '../data/store';
 import { Provider } from 'react-redux';
 import { CookiesProvider } from 'react-cookie';
+import '../styles/globals.css';
 
 import 'reset-css';
 

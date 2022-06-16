@@ -28,7 +28,7 @@ export default function Home({ places }) {
   });
 
   return (
-    <Box width='100vw' height='100vh' bg='blackAlpha.300'>
+    <Box width='100vw' height='100%' bg='blackAlpha.300'>
       {comp}
     </Box>
   );

@@ -2,7 +2,12 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllPins, setPin } from '../data/pinSlice';
-import Map, { Popup, useControl, Marker } from 'react-map-gl';
+import Map, {
+  Popup,
+  useControl,
+  Marker,
+  NavigationControl,
+} from 'react-map-gl';
 import MarkerPin from './MarkerPin';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -133,6 +138,7 @@ const ProjectMap = ({ places }) => {
         mapboxAccessToken={MAPBOX_TOKEN}
       >
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
+        <NavigationControl position='top-right' />
         {pins}
         {popupInfo && (
           <Popup
@@ -141,7 +147,7 @@ const ProjectMap = ({ places }) => {
             latitude={popupInfo.attributes.lat}
             onClose={() => setPopupInfo(null)}
             offset={40}
-            focusAfterOpen='false'
+            focusAfterOpen={false}
           >
             <div>
               <h3>{popupInfo.attributes.name}</h3>
@@ -153,6 +159,7 @@ const ProjectMap = ({ places }) => {
             longitude={marker.center[0]}
             latitude={marker.center[1]}
             onClose={() => dispatch(setPin(null))}
+            focusAfterOpen={false}
           >
             <Container>
               <Box py={'2'}>

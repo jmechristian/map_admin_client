@@ -65,8 +65,11 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            speed: 2.5,
-            pitch: 70,
+            duration: 2500,
+            ease: function (t) {
+              return 1 - Math.pow(1 - t, 5);
+            },
+            essential: true,
           },
         });
         ctrl.on('result', (evt) => {

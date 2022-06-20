@@ -63,6 +63,8 @@ const AddPlace = ({
         address: address,
         description: description,
         department: department,
+        createdAt: Date.now(),
+        createBy: user.user.user.username,
       },
     };
 

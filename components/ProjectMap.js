@@ -58,6 +58,10 @@ const ProjectMap = ({ places }) => {
           marker: true,
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
+          flyTo: {
+            duration: 2000,
+            pitch: 70,
+          },
         });
         ctrl.on('result', (evt) => {
           const { result } = evt;

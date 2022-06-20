@@ -22,6 +22,7 @@ import {
   TagLabel,
   Text,
   useToast,
+  Flex,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import AddPlace from './AddPlace';
@@ -43,9 +44,10 @@ const ProjectMap = ({ places }) => {
   const toast = useToast();
 
   const initialView = {
-    longitude: -77.04101184657091,
-    latitude: 38.92036921864505,
-    zoom: 11,
+    longitude: -77.0307193335218,
+    latitude: 38.87225889119998,
+    zoom: 12,
+    pitch: 70,
   };
 
   const GeoCode = (props) => {
@@ -127,9 +129,10 @@ const ProjectMap = ({ places }) => {
       />
       <Map
         initialViewState={{
-          longitude: -77.04101184657091,
-          latitude: 38.92036921864505,
-          zoom: 11,
+          longitude: -77.0307193335218,
+          latitude: 38.87225889119998,
+          zoom: 12,
+          pitch: 70,
         }}
         {...viewState}
         onMove={(event) => setViewState(event.viewState)}
@@ -138,7 +141,7 @@ const ProjectMap = ({ places }) => {
         mapboxAccessToken={MAPBOX_TOKEN}
       >
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
-        <NavigationControl position='top-right' />
+        <NavigationControl position='bottom-left' />
         {pins}
         {popupInfo && (
           <Popup
@@ -191,6 +194,10 @@ const ProjectMap = ({ places }) => {
           </Popup>
         ) : null}
       </Map>
+      <Flex position={'absolute'} top={'0'} right={'0'} direction={'column'}>
+        {/* <Box>Long: {viewState ? viewState.longitude : ''}</Box>
+        <Box>Lat: {viewState ? viewState.latitude : ''}</Box> */}
+      </Flex>
     </>
   );
 };

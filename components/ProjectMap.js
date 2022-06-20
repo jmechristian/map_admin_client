@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAllPins, setPin } from '../data/pinSlice';
@@ -59,7 +65,7 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            duration: 2000,
+            speed: 2.5,
             pitch: 70,
           },
         });

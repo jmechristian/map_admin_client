@@ -163,7 +163,7 @@ const ProjectMap = ({ places }) => {
         marginTop={'10px'}
         marginRight={'10px'}
       >
-        <TopRightUI />
+        <TopRightUI setView={() => setViewState(initialView)} />
       </Box>
       <Map
         initialViewState={{

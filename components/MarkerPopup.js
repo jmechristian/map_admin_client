@@ -12,27 +12,33 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import DeleteAlert from './DeleteAlert';
+import EditModal from './EditModal';
 import Link from 'next/link';
 
 const MarkerPopup = ({
-  name,
-  id,
+  place,
   setView,
   updatePins,
   closePopup,
   loadDeleteToast,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openEditModal, setOpenEditModal] = useState(false);
   return (
     <>
       <DeleteAlert
         isOpen={isOpen}
         onClose={onClose}
-        id={id}
+        id={place.id}
         setView={setView}
         updatePins={updatePins}
         closePopup={closePopup}
         loadDeleteToast={loadDeleteToast}
+      />
+      <EditModal
+        isOpen={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+        place={place}
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='8px'>
@@ -40,12 +46,12 @@ const MarkerPopup = ({
             <Image
               boxSize={'100%'}
               src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/1654K_hero.webp'
-              alt={name}
+              alt={place.name}
             />
           </Box>
           <Box marginBottom={'4px'}>
             <Heading as='h4' size={'sm'}>
-              {name}
+              {place.name}
             </Heading>
           </Box>
           <Box marginBottom={'16px'}>
@@ -78,7 +84,11 @@ const MarkerPopup = ({
             <Flex>
               <Box>
                 <Tag size={'md'} key={'md'} colorScheme='blue'>
-                  <EditIcon width={'4'} height={'4'} />
+                  <EditIcon
+                    width={'4'}
+                    height={'4'}
+                    onClick={() => setOpenEditModal(true)}
+                  />
                 </Tag>
               </Box>
               <Box>

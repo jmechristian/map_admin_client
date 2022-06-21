@@ -192,8 +192,7 @@ const ProjectMap = ({ places }) => {
             maxWidth='none'
           >
             <MarkerPopup
-              name={popupInfo.attributes.name}
-              id={popupInfo.id}
+              place={popupInfo}
               setView={() => setViewState(initialView)}
               updatePins={() => getUpdatedAllPins()}
               closePopup={() => setPopupInfo(null)}

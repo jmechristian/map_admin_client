@@ -32,6 +32,7 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import AddPlace from './AddPlace';
+import TopRightUI from './TopRightUI';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
@@ -140,6 +141,16 @@ const ProjectMap = ({ places }) => {
         updatePins={() => getUpdatedAllPins()}
         loadToast={() => loadToast()}
       />
+      <Box
+        position={'absolute'}
+        top={'0'}
+        right={'0'}
+        zIndex={'999'}
+        marginTop={'10px'}
+        marginRight={'10px'}
+      >
+        <TopRightUI />
+      </Box>
       <Map
         initialViewState={{
           longitude: -77.0307193335218,

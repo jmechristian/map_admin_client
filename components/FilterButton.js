@@ -7,7 +7,7 @@ const FilterButton = () => {
       alignItems={'center'}
       bg='white'
       px='8px'
-      py='8px'
+      py='6px'
       borderRadius={'4px'}
       boxShadow='md'
       marginBottom={{ base: '6px', sm: '0px' }}

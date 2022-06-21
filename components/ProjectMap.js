@@ -33,6 +33,7 @@ import {
 import { AddIcon } from '@chakra-ui/icons';
 import AddPlace from './AddPlace';
 import TopRightUI from './TopRightUI';
+import MarkerPopup from './MarkerPopup';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
@@ -96,6 +97,19 @@ const ProjectMap = ({ places }) => {
         marker ? marker.address : 'marker'
       } has been created`,
       status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
+
+  const loadDeleteToast = () => {
+    return toast({
+      title: 'Pin Successfully Deleted!',
+      description: `Pin for ${
+        marker ? marker.address : 'marker'
+      } has been deleted`,
+      status: 'error',
       duration: 5000,
       isClosable: true,
       position: 'top',
@@ -175,10 +189,16 @@ const ProjectMap = ({ places }) => {
             onClose={() => setPopupInfo(null)}
             offset={40}
             focusAfterOpen={false}
+            maxWidth='none'
           >
-            <div>
-              <h3>{popupInfo.attributes.name}</h3>
-            </div>
+            <MarkerPopup
+              name={popupInfo.attributes.name}
+              id={popupInfo.id}
+              setView={() => setViewState(initialView)}
+              updatePins={() => getUpdatedAllPins()}
+              closePopup={() => setPopupInfo(null)}
+              loadDeleteToast={() => loadDeleteToast()}
+            />
           </Popup>
         )}
         {marker ? (
@@ -218,10 +238,6 @@ const ProjectMap = ({ places }) => {
           </Popup>
         ) : null}
       </Map>
-      <Flex position={'absolute'} top={'0'} right={'0'} direction={'column'}>
-        {/* <Box>Long: {viewState ? viewState.longitude : ''}</Box>
-        <Box>Lat: {viewState ? viewState.latitude : ''}</Box> */}
-      </Flex>
     </>
   );
 };

@@ -6,3 +6,7 @@ body {
 #__next {
   height: 100%;
 }
+
+.mapboxgl-popup-close-button {
+  right: 5px !important;
+}

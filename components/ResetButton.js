@@ -7,7 +7,7 @@ const ResetButton = () => {
       alignItems={'center'}
       bg='white'
       px='8px'
-      py='8px'
+      py='6px'
       borderRadius={'4px'}
       boxShadow='md'
       color='blackAlpha.800'

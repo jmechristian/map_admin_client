@@ -42,19 +42,19 @@ const MarkerPopup = ({
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='8px'>
-          <Box marginBottom={'8px'}>
+          <Box marginBottom={'12px'}>
             <Image
               boxSize={'100%'}
               src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/1654K_hero.webp'
-              alt={place.name}
+              alt={place.attributes.name}
             />
           </Box>
-          <Box marginBottom={'4px'}>
+          <Box>
             <Heading as='h4' size={'sm'}>
-              {place.name}
+              {place.attributes.name}
             </Heading>
           </Box>
-          <Box marginBottom={'16px'}>
+          <Box marginBottom={'20px'}>
             <Text noOfLines={2} lineHeight='short'>
               11Q is a luxury condo development with 15 units located in the
               Logan Circle neighborhood. This building is a renovation and

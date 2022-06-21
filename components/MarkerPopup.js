@@ -42,7 +42,7 @@ const MarkerPopup = ({
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='8px'>
-          <Box marginBottom={'12px'}>
+          <Box marginBottom={'10px'}>
             <Image
               boxSize={'100%'}
               src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/1654K_hero.webp'
@@ -54,13 +54,11 @@ const MarkerPopup = ({
               {place.attributes.name}
             </Heading>
           </Box>
-          <Box marginBottom={'20px'}>
+          <Box marginBottom={'10px'}>
             <Text noOfLines={2} lineHeight='short'>
-              11Q is a luxury condo development with 15 units located in the
-              Logan Circle neighborhood. This building is a renovation and
-              addition to an existing structure, includes both one and two
-              bedroom floor plans with designer finishes throughout and private
-              outdoor terraces.
+              {place.attributes.description
+                ? place.attributes.description
+                : '11Q is a luxury condo development with 15 units located in the Logan Circle neighborhood. This building is a renovation and addition to an existing structure, includes both one and two bedroom floor plans with designer finishes throughout and private outdoor terraces.'}
             </Text>
           </Box>
           <Flex justifyContent={'space-between'}>

@@ -13,12 +13,11 @@ import Map, {
   useControl,
   Marker,
   NavigationControl,
+  useMap,
 } from 'react-map-gl';
 import MarkerPin from './MarkerPin';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import {
   Box,
   Container,
@@ -50,6 +49,7 @@ const ProjectMap = ({ places }) => {
   const marker = useSelector((state) => state.pin.pin);
   const dispatch = useDispatch();
   const toast = useToast();
+  const mapRef = useRef();
 
   const initialView = {
     longitude: -77.0307193335218,
@@ -67,11 +67,13 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            duration: 2500,
-            ease: function (t) {
-              return 1 - Math.pow(1 - t, 5);
-            },
+            duration: 1500,
+            pitch: 70,
+            bearing: 0,
             essential: true,
+            easing(t) {
+              return Math.sin((t * Math.PI) / 2);
+            },
           },
         });
         ctrl.on('result', (evt) => {
@@ -150,12 +152,23 @@ const ProjectMap = ({ places }) => {
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
             setPopupInfo(mark);
+            mapRef.current.flyTo({
+              center: [mark.attributes.lng, mark.attributes.lat],
+              zoom: 14,
+              duration: 1500,
+              pitch: 60,
+              bearing: 0,
+              essential: true,
+              easing(t) {
+                return Math.sin((t * Math.PI) / 2);
+              },
+            });
           }}
         >
           <MarkerPin place={mark} />
         </Marker>
       )),
-    [allPins]
+    [allPins, mapRef]
   );
 
   return (
@@ -176,9 +189,13 @@ const ProjectMap = ({ places }) => {
         marginTop={'10px'}
         marginRight={'10px'}
       >
-        <TopRightUI setView={() => setViewState(initialView)} />
+        <TopRightUI
+          setView={() => setViewState(initialView)}
+          closePopup={() => setPopupInfo(null)}
+        />
       </Box>
       <Map
+        ref={mapRef}
         initialViewState={{
           longitude: -77.0307193335218,
           latitude: 38.87225889119998,

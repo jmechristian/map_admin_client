@@ -39,6 +39,7 @@ const AddPlace = ({
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
+  const [link, setLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
@@ -138,14 +139,14 @@ const AddPlace = ({
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader fontSize={'3xl'} mb={'2'}>
+          <DrawerHeader fontSize={'3xl'} mb={'1'}>
             Add New Project
           </DrawerHeader>
           <DrawerBody>
             <Box height={'100%'}>
               <Flex direction='column'>
                 <FormControl>
-                  <Flex pb={'3'}>
+                  <Flex pb={'2'}>
                     <Box>
                       <FormLabel htmlFor='lng'>Longitude*</FormLabel>
                       <Input
@@ -168,7 +169,7 @@ const AddPlace = ({
                       />
                     </Box>
                   </Flex>
-                  <Box py={'3'}>
+                  <Box py={'2'}>
                     <FormLabel htmlFor='name'>Project Name*</FormLabel>
                     <Input
                       id='name'
@@ -178,7 +179,7 @@ const AddPlace = ({
                       onChange={nameHandler}
                     />
                   </Box>
-                  <Box py={'3'}>
+                  <Box py={'2'}>
                     <FormLabel htmlFor='dept'>Department*</FormLabel>
                     <Select
                       placeholder='Select Department'
@@ -193,7 +194,7 @@ const AddPlace = ({
                       <option value='branding'>Branding &amp; Marketing</option>
                     </Select>
                   </Box>
-                  <Box py={'3'}>
+                  <Box py={'2'}>
                     <FormLabel htmlFor='address'>Address*</FormLabel>
                     <Input
                       id='address'
@@ -203,14 +204,23 @@ const AddPlace = ({
                       disabled={true}
                     />
                   </Box>
-                  <Box py={'3'}>
-                    <FormLabel htmlFor='name'>
-                      Project Description (Optional)
-                    </FormLabel>
+                  <Box py={'2'}>
+                    <FormLabel htmlFor='name'>Project Description</FormLabel>
                     <Textarea
                       placeholder='Add optional project description'
                       onChange={(e) => setDescription(e.target.value)}
                       borderColor={'gray.300'}
+                    />
+                  </Box>
+                  <Box py={'2'}>
+                    <FormLabel htmlFor='name'>Project Link</FormLabel>
+                    <Input
+                      id='link'
+                      placeholder='Link, if project is live.'
+                      type='url'
+                      borderColor={'gray.300'}
+                      value={link ? link : ''}
+                      onChange={(e) => setLink(e.target.value)}
                     />
                   </Box>
                   <FormHelperText>* = Required</FormHelperText>

@@ -13,6 +13,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Textarea,
 } from '@chakra-ui/react';
 
 const EditModal = ({
@@ -30,6 +31,10 @@ const EditModal = ({
   );
   const [projectDesc, setProjectDesc] = useState(
     place.attributes.description ? place.attributes.description : ''
+  );
+
+  const [projLink, setProjLink] = useState(
+    place.attributes.link ? place.attributes.link : ''
   );
 
   const user = useSelector((state) => state.user);
@@ -76,7 +81,7 @@ const EditModal = ({
         <ModalContent>
           <ModalHeader>Update Selected Project</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={6}>
+          <ModalBody pb={4}>
             <FormControl>
               <FormLabel>Project name</FormLabel>
               <Input
@@ -89,11 +94,20 @@ const EditModal = ({
 
             <FormControl mt={4}>
               <FormLabel>Project Description</FormLabel>
-              <Input
+              <Textarea
                 placeholder='Project Description'
                 borderColor={'gray.300'}
                 value={projectDesc}
                 onChange={(e) => setProjectDesc(e.target.value)}
+              />
+            </FormControl>
+            <FormControl mt={4}>
+              <FormLabel>Project Link</FormLabel>
+              <Input
+                placeholder='Project Link'
+                borderColor={'gray.300'}
+                value={projLink}
+                onChange={(e) => setProjectLink(e.target.value)}
               />
             </FormControl>
           </ModalBody>

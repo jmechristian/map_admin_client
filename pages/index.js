@@ -7,6 +7,9 @@ import { setUser } from '../data/userSlice';
 import ProjectMap from '../components/ProjectMap';
 import Signin from '../components/SignIn';
 
+import 'mapbox-gl/dist/mapbox-gl.css';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
 export default function Home({ places }) {
   const state = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -36,7 +39,7 @@ export default function Home({ places }) {
 
 export async function getServerSideProps() {
   const res = await axios.get(
-    'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
+    'https://adg-projects-hs6ir.ondigitalocean.app/api/projects?populate=*'
   );
   const places = res.data.data;
 

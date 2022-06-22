@@ -3,7 +3,7 @@ import FilterButton from './FilterButton';
 import ResetButton from './ResetButton';
 import { Box, Flex } from '@chakra-ui/react';
 
-const TopRightUI = ({ setView }) => {
+const TopRightUI = ({ setView, closePopup }) => {
   return (
     <Flex
       width={'100%'}
@@ -13,7 +13,13 @@ const TopRightUI = ({ setView }) => {
       <Box marginRight={{ base: 'none', sm: '8px' }}>
         <FilterButton />
       </Box>
-      <Box onClick={() => setView()} cursor='pointer'>
+      <Box
+        onClick={() => {
+          setView();
+          closePopup();
+        }}
+        cursor='pointer'
+      >
         <ResetButton />
       </Box>
     </Flex>

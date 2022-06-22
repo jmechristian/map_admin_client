@@ -26,6 +26,8 @@ const MarkerPopup = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [openEditModal, setOpenEditModal] = useState(false);
 
+  const department = place.attributes.department.data.attributes.name;
+
   const closeModal = () => setOpenEditModal(false);
 
   return (
@@ -58,10 +60,12 @@ const MarkerPopup = ({
               alt={place.attributes.name}
             />
           </Box>
-          <Box>
+          <Flex>
             <Text color={'gray.500'} fontSize={'xs'} fontStyle={'italic'}>
-              Multifamily, Condos
+              {department ? department : ''}, Multifamily, Condos
             </Text>
+          </Flex>
+          <Box>
             <Heading as='h4' size={'md'}>
               {place.attributes.name}
             </Heading>

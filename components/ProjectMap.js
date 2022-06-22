@@ -67,7 +67,7 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            duration: 1500,
+            duration: 2000,
             pitch: 70,
             bearing: 0,
             essential: true,
@@ -155,7 +155,7 @@ const ProjectMap = ({ places }) => {
             mapRef.current.flyTo({
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
-              duration: 2000,
+              duration: 2500,
               pitch: 60,
               bearing: 0,
               essential: true,

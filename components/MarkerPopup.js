@@ -41,7 +41,7 @@ const MarkerPopup = ({
         place={place}
       />
       <Box bg='white' width={'250px'}>
-        <Flex direction={'column'} padding='8px'>
+        <Flex direction={'column'} padding='6px'>
           <Box marginBottom={'10px'}>
             <Image
               boxSize={'100%'}
@@ -50,12 +50,15 @@ const MarkerPopup = ({
             />
           </Box>
           <Box>
-            <Heading as='h4' size={'sm'}>
+            <Text color={'gray.500'} fontSize={'xs'} fontStyle={'italic'}>
+              Multifamily, Condos
+            </Text>
+            <Heading as='h4' size={'md'}>
               {place.attributes.name}
             </Heading>
           </Box>
-          <Box marginBottom={'10px'}>
-            <Text noOfLines={2} lineHeight='short'>
+          <Box marginBottom={'20px'}>
+            <Text noOfLines={3} lineHeight='short'>
               {place.attributes.description
                 ? place.attributes.description
                 : '11Q is a luxury condo development with 15 units located in the Logan Circle neighborhood. This building is a renovation and addition to an existing structure, includes both one and two bedroom floor plans with designer finishes throughout and private outdoor terraces.'}

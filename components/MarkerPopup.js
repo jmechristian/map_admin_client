@@ -21,9 +21,13 @@ const MarkerPopup = ({
   updatePins,
   closePopup,
   loadDeleteToast,
+  loadEditToast,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [openEditModal, setOpenEditModal] = useState(false);
+
+  const closeModal = () => setOpenEditModal(false);
+
   return (
     <>
       <DeleteAlert
@@ -39,6 +43,11 @@ const MarkerPopup = ({
         isOpen={openEditModal}
         onClose={() => setOpenEditModal(false)}
         place={place}
+        setView={setView}
+        updatePins={updatePins}
+        closePopup={closePopup}
+        closeModal={closeModal}
+        loadEditToast={loadEditToast}
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='6px'>

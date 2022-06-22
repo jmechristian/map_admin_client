@@ -116,6 +116,19 @@ const ProjectMap = ({ places }) => {
     });
   };
 
+  const loadEditToast = () => {
+    return toast({
+      title: 'Pin Successfully Updated!',
+      description: `Pin for ${
+        marker ? marker.address : 'marker'
+      } has been Updated`,
+      status: 'info',
+      duration: 5000,
+      isClosable: true,
+      position: 'top',
+    });
+  };
+
   const getUpdatedAllPins = useCallback(async () => {
     const res = await axios.get(
       'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
@@ -197,6 +210,7 @@ const ProjectMap = ({ places }) => {
               updatePins={() => getUpdatedAllPins()}
               closePopup={() => setPopupInfo(null)}
               loadDeleteToast={() => loadDeleteToast()}
+              loadEditToast={() => loadEditToast()}
             />
           </Popup>
         )}

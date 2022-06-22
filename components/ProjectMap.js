@@ -72,7 +72,7 @@ const ProjectMap = ({ places }) => {
             bearing: 0,
             essential: true,
             easing(t) {
-              return Math.sin((t * Math.PI) / 2);
+              return 1 - Math.pow(1 - t, 5);
             },
           },
         });
@@ -155,12 +155,12 @@ const ProjectMap = ({ places }) => {
             mapRef.current.flyTo({
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
-              duration: 1500,
+              duration: 2000,
               pitch: 60,
               bearing: 0,
               essential: true,
               easing(t) {
-                return Math.sin((t * Math.PI) / 2);
+                return 1 - Math.pow(1 - t, 5);
               },
             });
           }}

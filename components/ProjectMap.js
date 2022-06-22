@@ -107,7 +107,7 @@ const ProjectMap = ({ places }) => {
     return toast({
       title: 'Pin Successfully Deleted!',
       description: `Pin for ${
-        marker ? marker.address : 'marker'
+        popupInfo ? popupInfo.attributes.name : 'marker'
       } has been deleted`,
       status: 'error',
       duration: 5000,
@@ -120,7 +120,7 @@ const ProjectMap = ({ places }) => {
     return toast({
       title: 'Pin Successfully Updated!',
       description: `Pin for ${
-        marker ? marker.address : 'marker'
+        popupInfo ? popupInfo.attributes.name : 'marker'
       } has been Updated`,
       status: 'info',
       duration: 5000,

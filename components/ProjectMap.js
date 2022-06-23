@@ -135,7 +135,7 @@ const ProjectMap = ({ places }) => {
 
   const getUpdatedAllPins = useCallback(async () => {
     const res = await axios.get(
-      'https://adg-projects-hs6ir.ondigitalocean.app/api/projects'
+      'https://adg-projects-hs6ir.ondigitalocean.app/api/projects?populate=*'
     );
     dispatch(setAllPins(res.data.data));
     setPins(res.data.data);

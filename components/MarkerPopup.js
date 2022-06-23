@@ -58,7 +58,11 @@ const MarkerPopup = ({
               <Image
                 boxSize={'100%'}
                 src={`${gallery.data[0].attributes.formats.thumbnail.url}`}
-                alt={place.attributes.name}
+                alt={
+                  place.attributes
+                    ? place.attributes.name
+                    : 'Akseizer Design Group'
+                }
               />
             </Box>
           ) : (

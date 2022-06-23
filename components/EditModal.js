@@ -48,6 +48,7 @@ const EditModal = ({
       data: {
         name: projectName,
         description: projectDesc,
+        link: projLink,
       },
     };
 
@@ -107,7 +108,7 @@ const EditModal = ({
                 placeholder='Project Link'
                 borderColor={'gray.300'}
                 value={projLink}
-                onChange={(e) => setProjectLink(e.target.value)}
+                onChange={(e) => setProjLink(e.target.value)}
               />
             </FormControl>
           </ModalBody>

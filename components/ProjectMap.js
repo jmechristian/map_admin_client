@@ -69,7 +69,7 @@ const ProjectMap = ({ places }) => {
           flyTo: {
             duration: 2200,
             zoom: 15,
-            pitch: 60,
+            pitch: 70,
             bearing: 0,
             essential: true,
             easing(t) {
@@ -157,7 +157,7 @@ const ProjectMap = ({ places }) => {
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
               duration: 2500,
-              pitch: 60,
+              pitch: 70,
               bearing: 0,
               essential: true,
               easing(t) {

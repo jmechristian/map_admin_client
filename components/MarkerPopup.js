@@ -26,6 +26,7 @@ const MarkerPopup = ({
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const department = place.attributes.department.data.attributes.name;
+  const gallery = place.attributes.gallery;
 
   const closeModal = () => setOpenEditModal(false);
 
@@ -52,13 +53,17 @@ const MarkerPopup = ({
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='6px'>
-          <Box marginBottom={'10px'}>
-            <Image
-              boxSize={'100%'}
-              src='https://adg-projects.nyc3.cdn.digitaloceanspaces.com/assets/1654K_hero.webp'
-              alt={place.attributes.name}
-            />
-          </Box>
+          {gallery.data ? (
+            <Box marginBottom={'10px'}>
+              <Image
+                boxSize={'100%'}
+                src={`${gallery.data[0].attributes.formats.thumbnail.url}`}
+                alt={place.attributes.name}
+              />
+            </Box>
+          ) : (
+            ''
+          )}
           <Flex>
             <Text color={'gray.500'} fontSize={'xs'} fontStyle={'italic'}>
               {department ? department : ''}
@@ -78,9 +83,7 @@ const MarkerPopup = ({
           </Box>
           <Box marginBottom={'20px'}>
             <Text noOfLines={3} lineHeight='short'>
-              {place.attributes.description
-                ? place.attributes.description
-                : '11Q is a luxury condo development with 15 units located in the Logan Circle neighborhood. This building is a renovation and addition to an existing structure, includes both one and two bedroom floor plans with designer finishes throughout and private outdoor terraces.'}
+              {place.attributes.description ? place.attributes.description : ''}
             </Text>
           </Box>
           <Flex justifyContent={'space-between'}>

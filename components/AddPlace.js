@@ -66,6 +66,7 @@ const AddPlace = ({
         department: department,
         createdAt: Date.now(),
         createBy: user.user.user.username,
+        link: link,
       },
     };
 

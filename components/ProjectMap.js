@@ -67,8 +67,9 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            duration: 2000,
-            pitch: 70,
+            duration: 2200,
+            zoom: 15,
+            pitch: 60,
             bearing: 0,
             essential: true,
             easing(t) {

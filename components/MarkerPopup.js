@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -13,7 +13,6 @@ import {
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import DeleteAlert from './DeleteAlert';
 import EditModal from './EditModal';
-import Link from 'next/link';
 
 const MarkerPopup = ({
   place,
@@ -62,7 +61,14 @@ const MarkerPopup = ({
           </Box>
           <Flex>
             <Text color={'gray.500'} fontSize={'xs'} fontStyle={'italic'}>
-              {department ? department : ''}, Multifamily, Condos
+              {department ? department : ''}
+              {place.attributes.subcategory.data
+                ? ', ' +
+                  place.attributes.subcategory.data.attributes.subcategory
+                : ''}
+              {place.attributes.building_type.data
+                ? ', ' + place.attributes.building_type.data.attributes.type
+                : ''}
             </Text>
           </Flex>
           <Box>
@@ -79,21 +85,33 @@ const MarkerPopup = ({
           </Box>
           <Flex justifyContent={'space-between'}>
             <Box>
-              <HStack spacing={'4'}>
-                <Tag
-                  size={'md'}
-                  key={'md'}
-                  variant='solid'
-                  color={'white'}
-                  bg={'blackAlpha.800'}
-                  py={'6px'}
-                  px={'12px'}
-                  borderRadius='4px'
-                  css={{ cursor: 'pointer' }}
-                >
-                  <TagLabel fontSize={'sm'}>View Project</TagLabel>
-                </Tag>
-              </HStack>
+              {place.attributes.link ? (
+                <HStack spacing={'4'}>
+                  <Tag
+                    size={'md'}
+                    key={'md'}
+                    variant='solid'
+                    color={'white'}
+                    bg={'blackAlpha.800'}
+                    py={'6px'}
+                    px={'12px'}
+                    borderRadius='4px'
+                    css={{ cursor: 'pointer' }}
+                  >
+                    <TagLabel fontSize={'sm'}>
+                      <a
+                        href={`${place.attributes.link}`}
+                        target='_blank'
+                        rel='noreferrer'
+                      >
+                        View Project
+                      </a>
+                    </TagLabel>
+                  </Tag>
+                </HStack>
+              ) : (
+                ''
+              )}
             </Box>
             <Flex>
               <Box>

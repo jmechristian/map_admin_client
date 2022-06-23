@@ -67,12 +67,13 @@ const ProjectMap = ({ places }) => {
           accessToken: props.mapboxAccessToken,
           mapboxgl: mapboxgl,
           flyTo: {
-            duration: 2200,
             zoom: 15,
+            duration: 2500,
             pitch: 70,
             bearing: 0,
             essential: true,
-            easing(t) {
+            curve: 0.7,
+            easing: function (t) {
               return 1 - Math.pow(1 - t, 5);
             },
           },
@@ -156,11 +157,12 @@ const ProjectMap = ({ places }) => {
             mapRef.current.flyTo({
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
-              duration: 2500,
+              duration: 2000,
               pitch: 70,
               bearing: 0,
               essential: true,
-              easing(t) {
+              curve: 0.7,
+              easing: function (t) {
                 return 1 - Math.pow(1 - t, 5);
               },
             });

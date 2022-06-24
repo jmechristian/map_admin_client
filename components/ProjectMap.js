@@ -33,20 +33,27 @@ import { AddIcon } from '@chakra-ui/icons';
 import AddPlace from './AddPlace';
 import TopRightUI from './TopRightUI';
 import MarkerPopup from './MarkerPopup';
+import FilterDrawer from './FilterDrawer';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
 
 const ProjectMap = ({ places }) => {
+  const { filteredPins } = useSelector((state) => state.filter);
+
   useEffect(() => {
-    dispatch(setAllPins(places));
-  }, [dispatch, places, viewState]);
+    if (filteredPins != null) {
+      setPins(filteredPins);
+    } else setPins(places);
+  }, [filteredPins, places]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [viewState, setViewState] = useState(initialView);
   const [allPins, setPins] = useState(places);
   const [popupInfo, setPopupInfo] = useState(null);
+  const [openFilters, setOpenFilters] = useState(false);
   const marker = useSelector((state) => state.pin.pin);
+
   const dispatch = useDispatch();
   const toast = useToast();
   const mapRef = useRef();
@@ -92,6 +99,10 @@ const ProjectMap = ({ places }) => {
 
   const drawerHandler = (value) => {
     setIsOpen(value);
+  };
+
+  const filterHandler = (value) => {
+    setOpenFilters(value);
   };
 
   const loadToast = () => {
@@ -184,6 +195,11 @@ const ProjectMap = ({ places }) => {
         updatePins={() => getUpdatedAllPins()}
         loadToast={() => loadToast()}
       />
+      <FilterDrawer
+        openFilter={openFilters}
+        closeFilter={() => setOpenFilters(false)}
+        allPins={allPins}
+      />
       <Box
         position={'absolute'}
         top={'0'}
@@ -195,6 +211,7 @@ const ProjectMap = ({ places }) => {
         <TopRightUI
           setView={() => setViewState(initialView)}
           closePopup={() => setPopupInfo(null)}
+          openFilters={() => setOpenFilters(true)}
         />
       </Box>
       <Map

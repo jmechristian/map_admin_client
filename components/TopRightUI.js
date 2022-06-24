@@ -3,14 +3,14 @@ import FilterButton from './FilterButton';
 import ResetButton from './ResetButton';
 import { Box, Flex } from '@chakra-ui/react';
 
-const TopRightUI = ({ setView, closePopup }) => {
+const TopRightUI = ({ setView, closePopup, openFilters }) => {
   return (
     <Flex
       width={'100%'}
       alignItems={'center'}
       flexDirection={{ base: 'column', sm: 'row' }}
     >
-      <Box marginRight={{ base: 'none', sm: '8px' }}>
+      <Box marginRight={{ base: 'none', sm: '8px' }} onClick={openFilters}>
         <FilterButton />
       </Box>
       <Box

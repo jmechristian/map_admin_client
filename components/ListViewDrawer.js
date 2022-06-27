@@ -10,8 +10,9 @@ import {
   ListItem,
   ListIcon,
   Text,
+  Link,
 } from '@chakra-ui/react';
-import { LocationMarkerIcon } from '@heroicons/react/solid';
+import { LocationMarkerIcon, ExternalLinkIcon } from '@heroicons/react/solid';
 
 const ListViewDrawer = ({
   openListView,
@@ -49,15 +50,32 @@ const ListViewDrawer = ({
     >
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Projects List View</DrawerHeader>
+        <DrawerHeader>
+          Projects List View &#40;{allPins.length}&#41;
+        </DrawerHeader>
 
         <DrawerBody>
           <List spacing={3}>
             {allPins.map((item, index) => (
-              <ListItem key={index}>
-                <Flex alignItems={'center'} onClick={() => flyToMarker(item)}>
-                  <ListIcon as={LocationMarkerIcon} color='brand.900' />
-                  <Text fontSize={'md'}>{item.attributes.name}</Text>
+              <ListItem key={index} cursor='pointer'>
+                <Flex alignItems={'center'}>
+                  <Flex onClick={() => flyToMarker(item)} alignItems={'center'}>
+                    <ListIcon as={LocationMarkerIcon} color='brand.900' />
+                    <Text fontSize={'md'} color={'gray.600'}>
+                      {item.attributes.name}
+                    </Text>
+                  </Flex>
+                  {item.attributes.link ? (
+                    <Link href={item.attributes.link} isExternal>
+                      <ListIcon
+                        as={ExternalLinkIcon}
+                        color='gray.400'
+                        marginLeft={'1'}
+                      />
+                    </Link>
+                  ) : (
+                    ''
+                  )}
                 </Flex>
               </ListItem>
             ))}

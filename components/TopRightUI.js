@@ -1,6 +1,7 @@
 import React from 'react';
 import FilterButton from './FilterButton';
 import ResetButton from './ResetButton';
+import ListViewButton from './ListViewButton';
 import { Box, Flex } from '@chakra-ui/react';
 
 const TopRightUI = ({ setView, closePopup, openFilters }) => {
@@ -21,6 +22,9 @@ const TopRightUI = ({ setView, closePopup, openFilters }) => {
         cursor='pointer'
       >
         <ResetButton />
+      </Box>
+      <Box marginLeft={{ base: 'none', sm: '8px' }} onClick={openFilters}>
+        <ListViewButton />
       </Box>
     </Flex>
   );

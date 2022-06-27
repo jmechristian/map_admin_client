@@ -21,6 +21,9 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  Checkbox,
+  CheckboxGroup,
+  Stack,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
@@ -41,6 +44,9 @@ const AddPlace = ({
   const [department, setDepartment] = useState('');
   const [link, setLink] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [checkboxValue, setCheckboxValue] = useState([]);
+  const [structure, setStructureType] = useState();
+  const [subcategory, setSubcategory] = useState();
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
 
@@ -64,11 +70,16 @@ const AddPlace = ({
         address: address,
         description: description,
         department: department,
+        subcategory: parseInt(subcategory),
+        project_types: checkboxValue,
+        building_type: structure,
         createdAt: Date.now(),
         createBy: user.user.user.username,
         link: link,
       },
     };
+
+    console.log(data);
 
     if (department === '') {
       setError('Please choose a department');
@@ -134,43 +145,25 @@ const AddPlace = ({
     }
   };
 
+  const projectTypes = [
+    'New Construction',
+    'Renovation',
+    'Historic Renovation',
+    'Addition',
+  ];
+
   return (
     <>
       <Drawer isOpen={open} onClose={() => closeDrawer(false)} size={'md'}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader fontSize={'3xl'} mb={'1'}>
-            Add New Project
-          </DrawerHeader>
+          <DrawerHeader fontSize={'3xl'}>Add New Project</DrawerHeader>
           <DrawerBody>
             <Box height={'100%'}>
               <Flex direction='column'>
                 <FormControl>
-                  <Flex pb={'2'}>
-                    <Box>
-                      <FormLabel htmlFor='lng'>Longitude*</FormLabel>
-                      <Input
-                        id='lng'
-                        type='lng'
-                        disabled={true}
-                        borderColor={'gray.300'}
-                        value={place ? place.center[0] : ''}
-                      />
-                    </Box>
-                    <Spacer />
-                    <Box>
-                      <FormLabel htmlFor='lat'>Latitude*</FormLabel>
-                      <Input
-                        id='lat'
-                        type='lat'
-                        disabled={true}
-                        borderColor={'gray.300'}
-                        value={place ? place.center[1] : ''}
-                      />
-                    </Box>
-                  </Flex>
-                  <Box py={'2'}>
+                  <Box pb={2}>
                     <FormLabel htmlFor='name'>Project Name*</FormLabel>
                     <Input
                       id='name'
@@ -178,15 +171,18 @@ const AddPlace = ({
                       value={name}
                       borderColor={'gray.300'}
                       onChange={nameHandler}
+                      focusBorderColor='brand.900'
                     />
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={2}>
                     <FormLabel htmlFor='dept'>Department*</FormLabel>
                     <Select
                       placeholder='Select Department'
                       id='dept'
+                      color='gray.500'
                       onChange={selectHandler}
                       borderColor={'gray.300'}
+                      focusBorderColor='brand.900'
                     >
                       <option value='architecture'>Architecture</option>
                       <option value='commercial'>Commercial Interiors</option>
@@ -195,25 +191,76 @@ const AddPlace = ({
                       <option value='branding'>Branding &amp; Marketing</option>
                     </Select>
                   </Box>
-                  <Box py={'2'}>
-                    <FormLabel htmlFor='address'>Address*</FormLabel>
-                    <Input
-                      id='address'
-                      type='address'
-                      borderColor={'gray.300'}
-                      value={place ? place.place_name : ''}
-                      disabled={true}
-                    />
+                  <Flex py={2} justifyContent='space-between'>
+                    <Box>
+                      <FormLabel htmlFor='sub'>Subcategory</FormLabel>
+                      <Select
+                        placeholder='Select Subcategory'
+                        id='sub'
+                        color='gray.500'
+                        onChange={(e) => setSubcategory(e.target.value)}
+                        borderColor={'gray.300'}
+                        focusBorderColor='brand.900'
+                      >
+                        <option value='1'>Multi-Family</option>
+                        <option value='2'>Single-Family</option>
+                        <option value='3'>Rowhomes</option>
+                        <option value='4'>Commercial</option>
+                      </Select>
+                    </Box>
+                    <Box>
+                      <FormLabel htmlFor='dept'>Structure Type</FormLabel>
+                      <Select
+                        placeholder='Select Structure Type'
+                        id='structure'
+                        onChange={(e) => setStructureType(e.target.value)}
+                        color='gray.500'
+                        borderColor={'gray.300'}
+                        focusBorderColor='brand.900'
+                      >
+                        <option value='1'>Condo</option>
+                        <option value='2'>Apartment</option>
+                        <option value='3'>Hotel</option>
+                        <option value='4'>Restaurant</option>
+                        <option value='5'>Rowhome</option>
+                        <option value='6'>House</option>
+                      </Select>
+                    </Box>
+                  </Flex>
+                  <Box py={3}>
+                    <FormLabel htmlFor='project_types'> Project Type</FormLabel>
+                    <CheckboxGroup
+                      colorScheme='blackAlpha'
+                      id='project_types'
+                      onChange={(value) => setCheckboxValue(value)}
+                    >
+                      <Flex direction='row' wrap={'wrap'}>
+                        {projectTypes.map((cat, index) => {
+                          return (
+                            <Checkbox
+                              key={index}
+                              value={(index + 1).toString()}
+                              borderColor={'gray.300'}
+                              width={'fit-content'}
+                              marginRight={'20px'}
+                            >
+                              {cat}
+                            </Checkbox>
+                          );
+                        })}
+                      </Flex>
+                    </CheckboxGroup>
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={2}>
                     <FormLabel htmlFor='name'>Project Description</FormLabel>
                     <Textarea
                       placeholder='Add optional project description'
                       onChange={(e) => setDescription(e.target.value)}
                       borderColor={'gray.300'}
+                      focusBorderColor='brand.900'
                     />
                   </Box>
-                  <Box py={'2'}>
+                  <Box py={2}>
                     <FormLabel htmlFor='name'>Project Link</FormLabel>
                     <Input
                       id='link'
@@ -222,9 +269,9 @@ const AddPlace = ({
                       borderColor={'gray.300'}
                       value={link ? link : ''}
                       onChange={(e) => setLink(e.target.value)}
+                      focusBorderColor='brand.900'
                     />
                   </Box>
-                  <FormHelperText>* = Required</FormHelperText>
                 </FormControl>
                 <Button
                   rightIcon={<ArrowForwardIcon />}

@@ -4,7 +4,7 @@ import ResetButton from './ResetButton';
 import ListViewButton from './ListViewButton';
 import { Box, Flex } from '@chakra-ui/react';
 
-const TopRightUI = ({ setView, closePopup, openFilters }) => {
+const TopRightUI = ({ setView, closePopup, openFilters, openListView }) => {
   return (
     <Flex
       width={'100%'}
@@ -23,7 +23,7 @@ const TopRightUI = ({ setView, closePopup, openFilters }) => {
       >
         <ResetButton />
       </Box>
-      <Box marginLeft={{ base: 'none', sm: '8px' }} onClick={openFilters}>
+      <Box marginLeft={{ base: 'none', sm: '8px' }} onClick={openListView}>
         <ListViewButton />
       </Box>
     </Flex>

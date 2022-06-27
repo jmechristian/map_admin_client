@@ -34,6 +34,7 @@ import AddPlace from './AddPlace';
 import TopRightUI from './TopRightUI';
 import MarkerPopup from './MarkerPopup';
 import FilterDrawer from './FilterDrawer';
+import ListViewDrawer from './ListViewDrawer';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
@@ -52,6 +53,7 @@ const ProjectMap = ({ places }) => {
   const [allPins, setPins] = useState(places);
   const [popupInfo, setPopupInfo] = useState(null);
   const [openFilters, setOpenFilters] = useState(false);
+  const [openListView, setOpenListView] = useState(false);
   const marker = useSelector((state) => state.pin.pin);
 
   const dispatch = useDispatch();
@@ -169,6 +171,7 @@ const ProjectMap = ({ places }) => {
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
               duration: 2000,
+              offset: [0, 80],
               pitch: 70,
               bearing: 0,
               essential: true,
@@ -200,6 +203,13 @@ const ProjectMap = ({ places }) => {
         closeFilter={() => setOpenFilters(false)}
         allPins={allPins}
       />
+      <ListViewDrawer
+        openListView={openListView}
+        closeListView={() => setOpenListView(false)}
+        allPins={allPins}
+        map={mapRef.current}
+        setPopupInfo={setPopupInfo}
+      />
       <Box
         position={'absolute'}
         top={'0'}
@@ -212,6 +222,7 @@ const ProjectMap = ({ places }) => {
           setView={() => setViewState(initialView)}
           closePopup={() => setPopupInfo(null)}
           openFilters={() => setOpenFilters(true)}
+          openListView={(lis) => setOpenListView(true)}
         />
       </Box>
       <Map

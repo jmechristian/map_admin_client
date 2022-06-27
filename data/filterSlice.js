@@ -20,15 +20,20 @@ export const filterSlice = createSlice({
       state.selectedSubcategories = action.payload;
     },
     getFilteredPins: (state) => {
-      let pins = state.selectedSubcategories.map((category) =>
-        state.allThePins.filter(
-          (proj) =>
-            proj.attributes.subcategory.data != null &&
-            proj.attributes.subcategory.data.attributes.subcategory === category
-        )
-      );
+      if (state.selectedSubcategories === null) {
+        return;
+      } else {
+        let pins = state.selectedSubcategories.map((category) =>
+          state.allThePins.filter(
+            (proj) =>
+              proj.attributes.subcategory.data != null &&
+              proj.attributes.subcategory.data.attributes.subcategory ===
+                category
+          )
+        );
 
-      state.filteredPins = pins.flat();
+        state.filteredPins = pins.flat();
+      }
     },
     clearAllFilters: (state) => {
       state.filteredPins = null;

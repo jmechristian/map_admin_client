@@ -10,6 +10,7 @@ const ResetButton = () => {
       py='6px'
       borderRadius={'4px'}
       boxShadow='md'
+      marginBottom={{ base: '6px', sm: '0px' }}
       color='blackAlpha.800'
     >
       <Box width={'16px'} boxSizing='border-box'>

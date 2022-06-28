@@ -180,7 +180,7 @@ const ProjectMap = ({ places }) => {
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
               duration: 2000,
-              offset: isMobile ? [0, 150] : [0, 80],
+              offset: isMobile ? [0, 200] : [0, 80],
               pitch: 70,
               bearing: 0,
               essential: true,

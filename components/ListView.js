@@ -50,7 +50,7 @@ const ListView = ({
           exit={{ x: '-100%', opacity: 0 }}
           transformOrigin={'right'}
           transition='0.1s linear'
-          width={{ base: '85%', sm: '40%', md: '30%', lg: '25%', xl: '20%' }}
+          width={{ base: '85%', sm: '40%', md: '32%', lg: '28%', xl: '22%' }}
           bgColor='white'
           boxShadow={'xl'}
           overflowY='scroll'
@@ -60,17 +60,17 @@ const ListView = ({
           zIndex={'overlay'}
           height={'100%'}
         >
-          <Stack direction='column' width={'100%'} py={'4'} px={'5'}>
+          <Stack direction='column' width={'100%'} py={'4'} px={'8'}>
             <Flex justifyContent={'space-between'} alignItems={'top'}>
               <Text
                 fontSize={'xl'}
                 fontWeight='bold'
                 color={'blackAlpha.800'}
-                mb='3'
+                mb='6'
               >
                 Projects List View &#40;{allPins.length}&#41;
               </Text>
-              <Box width={'20px'} onClick={closeListView}>
+              <Box width={'20px'} onClick={closeListView} cursor={'pointer'}>
                 <CloseButton />
               </Box>
             </Flex>

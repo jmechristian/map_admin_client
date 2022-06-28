@@ -11,6 +11,7 @@ import {
   ListIcon,
   Text,
   Link,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { LocationMarkerIcon, ExternalLinkIcon } from '@heroicons/react/solid';
 
@@ -27,7 +28,7 @@ const ListViewDrawer = ({
       center: [item.attributes.lng, item.attributes.lat],
       zoom: 14,
       duration: 2000,
-      offset: [0, 80],
+      offset: isMobile ? [0, 150] : [0, 80],
       pitch: 70,
       bearing: 0,
       essential: true,
@@ -39,6 +40,8 @@ const ListViewDrawer = ({
     setPopupInfo(item);
   };
 
+  const [isMobile] = useMediaQuery('(max-width: 500px)');
+
   return (
     <Drawer
       isOpen={openListView}
@@ -46,7 +49,6 @@ const ListViewDrawer = ({
       onClose={closeListView}
       size={'xs'}
       autoFocus={false}
-      trapFocus={false}
     >
       <DrawerContent>
         <DrawerCloseButton />

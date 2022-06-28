@@ -27,7 +27,7 @@ import {
   TagLabel,
   Text,
   useToast,
-  Flex,
+  useMediaQuery,
 } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import AddPlace from './AddPlace';
@@ -56,16 +56,25 @@ const ProjectMap = ({ places }) => {
   const [openListView, setOpenListView] = useState(false);
   const marker = useSelector((state) => state.pin.pin);
 
+  const [isMobile] = useMediaQuery('(max-width: 500px)');
+
   const dispatch = useDispatch();
   const toast = useToast();
   const mapRef = useRef();
 
-  const initialView = {
-    longitude: -77.0307193335218,
-    latitude: 38.87225889119998,
-    zoom: 12,
-    pitch: 70,
-  };
+  const initialView = isMobile
+    ? {
+        longitude: -77.0307193335218,
+        latitude: 38.87225889119998,
+        zoom: 10,
+        pitch: 70,
+      }
+    : {
+        longitude: -77.0307193335218,
+        latitude: 38.87225889119998,
+        zoom: 12,
+        pitch: 70,
+      };
 
   const GeoCode = (props) => {
     useControl(
@@ -171,7 +180,7 @@ const ProjectMap = ({ places }) => {
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
               duration: 2000,
-              offset: [0, 80],
+              offset: isMobile ? [0, 150] : [0, 80],
               pitch: 70,
               bearing: 0,
               essential: true,
@@ -185,7 +194,7 @@ const ProjectMap = ({ places }) => {
           <MarkerPin place={mark} />
         </Marker>
       )),
-    [allPins, mapRef]
+    [allPins, mapRef, isMobile]
   );
 
   return (
@@ -227,12 +236,21 @@ const ProjectMap = ({ places }) => {
       </Box>
       <Map
         ref={mapRef}
-        initialViewState={{
-          longitude: -77.0307193335218,
-          latitude: 38.87225889119998,
-          zoom: 12,
-          pitch: 70,
-        }}
+        initialViewState={
+          isMobile
+            ? {
+                longitude: -77.0307193335218,
+                latitude: 38.87225889119998,
+                zoom: 10,
+                pitch: 70,
+              }
+            : {
+                longitude: -77.0307193335218,
+                latitude: 38.87225889119998,
+                zoom: 12,
+                pitch: 70,
+              }
+        }
         {...viewState}
         onMove={(event) => setViewState(event.viewState)}
         style={{ width: '100%', height: '100%' }}
@@ -240,7 +258,7 @@ const ProjectMap = ({ places }) => {
         mapboxAccessToken={MAPBOX_TOKEN}
       >
         <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
-        <NavigationControl position='bottom-left' />
+        <NavigationControl position='bottom-right' />
         {pins}
         {popupInfo && (
           <Popup

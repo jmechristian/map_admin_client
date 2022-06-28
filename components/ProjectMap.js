@@ -62,19 +62,12 @@ const ProjectMap = ({ places }) => {
   const toast = useToast();
   const mapRef = useRef();
 
-  const initialView = isMobile
-    ? {
-        longitude: -77.0307193335218,
-        latitude: 38.87225889119998,
-        zoom: 10,
-        pitch: 70,
-      }
-    : {
-        longitude: -77.0307193335218,
-        latitude: 38.87225889119998,
-        zoom: 12,
-        pitch: 70,
-      };
+  const initialView = {
+    longitude: -77.0307193335218,
+    latitude: 38.87225889119998,
+    zoom: isMobile ? 10 : 12,
+    pitch: 70,
+  };
 
   const GeoCode = (props) => {
     useControl(
@@ -180,7 +173,7 @@ const ProjectMap = ({ places }) => {
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
               duration: 2000,
-              offset: isMobile ? [0, 200] : [0, 80],
+              offset: isMobile ? [0, 150] : [0, 80],
               pitch: 70,
               bearing: 0,
               essential: true,

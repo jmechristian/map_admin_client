@@ -58,6 +58,7 @@ const FilterDrawer = ({ openFilter, closeFilter, allPins }) => {
       placement='left'
       onClose={closeFilter}
       size={'xs'}
+      autoFocus={false}
     >
       <DrawerOverlay />
       <DrawerContent>

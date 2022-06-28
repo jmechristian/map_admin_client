@@ -13,7 +13,6 @@ import Map, {
   useControl,
   Marker,
   NavigationControl,
-  useMap,
 } from 'react-map-gl';
 import MarkerPin from './MarkerPin';
 import mapboxgl from 'mapbox-gl';
@@ -21,6 +20,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import {
   Box,
   Container,
+  Flex,
   HStack,
   Tag,
   TagLeftIcon,
@@ -35,6 +35,7 @@ import TopRightUI from './TopRightUI';
 import MarkerPopup from './MarkerPopup';
 import FilterDrawer from './FilterDrawer';
 import ListViewDrawer from './ListViewDrawer';
+import ListView from './ListView';
 
 const MAPBOX_TOKEN =
   'pk.eyJ1IjoiYWRnLWJyYW5kaW5nIiwiYSI6ImNsM3czZ3IwZDBuaGYzYm8yemcwdWFlMGgifQ.2378CUUNBJppYXdD1c5aHg';
@@ -192,110 +193,125 @@ const ProjectMap = ({ places }) => {
 
   return (
     <>
-      <AddPlace
-        open={isOpen}
-        closeDrawer={drawerHandler}
-        place={marker}
-        setView={() => setViewState(initialView)}
-        updatePins={() => getUpdatedAllPins()}
-        loadToast={() => loadToast()}
-      />
-      <FilterDrawer
-        openFilter={openFilters}
-        closeFilter={() => setOpenFilters(false)}
-        allPins={allPins}
-      />
-      <ListViewDrawer
-        openListView={openListView}
-        closeListView={() => setOpenListView(false)}
-        allPins={allPins}
-        map={mapRef.current}
-        setPopupInfo={setPopupInfo}
-      />
-      <Box
-        position={'absolute'}
-        top={'0'}
-        right={'0'}
-        zIndex={'999'}
-        marginTop={'10px'}
-        marginRight={'10px'}
-      >
-        <TopRightUI
-          setView={() => setViewState(initialView)}
-          closePopup={() => setPopupInfo(null)}
-          openFilters={() => setOpenFilters(true)}
-          openListView={(lis) => setOpenListView(true)}
+      <Flex width={'100%'} height={'100%'}>
+        <ListView
+          allPins={allPins}
+          openListView={openListView}
+          map={mapRef.current}
+          setPopupInfo={setPopupInfo}
+          closeListView={() => setOpenListView(false)}
         />
-      </Box>
-      <Map
-        ref={mapRef}
-        initialViewState={initialView}
-        {...viewState}
-        onMove={(event) => setViewState(event.viewState)}
-        style={{ width: '100%', height: '100%' }}
-        mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
-        mapboxAccessToken={MAPBOX_TOKEN}
-      >
-        <GeoCode position='top-left' mapboxAccessToken={MAPBOX_TOKEN} />
-        <NavigationControl position='bottom-right' />
-        {pins}
-        {popupInfo && (
-          <Popup
-            anchor='bottom'
-            longitude={popupInfo.attributes.lng}
-            latitude={popupInfo.attributes.lat}
-            onClose={() => setPopupInfo(null)}
-            offset={40}
-            focusAfterOpen={false}
-            maxWidth='none'
+        <Box width={'100%'} height={'100%'}>
+          <AddPlace
+            open={isOpen}
+            closeDrawer={drawerHandler}
+            place={marker}
+            setView={() => setViewState(initialView)}
+            updatePins={() => getUpdatedAllPins()}
+            loadToast={() => loadToast()}
+          />
+          <FilterDrawer
+            openFilter={openFilters}
+            closeFilter={() => setOpenFilters(false)}
+            allPins={allPins}
+          />
+          {/* <ListViewDrawer
+            openListView={openListView}
+            closeListView={() => setOpenListView(false)}
+            allPins={allPins}
+            map={mapRef.current}
+            setPopupInfo={setPopupInfo}
+          /> */}
+          <Box
+            position={'absolute'}
+            top={'0'}
+            right={{ base: 'unset', sm: '250px' }}
+            left={{ base: '10px', sm: 'unset' }}
+            zIndex={'999'}
+            marginTop={'10px'}
+            marginRight={'10px'}
           >
-            <MarkerPopup
-              place={popupInfo}
+            <TopRightUI
               setView={() => setViewState(initialView)}
-              updatePins={() => getUpdatedAllPins()}
               closePopup={() => setPopupInfo(null)}
-              loadDeleteToast={() => loadDeleteToast()}
-              loadEditToast={() => loadEditToast()}
+              openFilters={() => setOpenFilters(true)}
+              openListView={() => {
+                setOpenListView(!openListView);
+                setViewState(initialView);
+              }}
             />
-          </Popup>
-        )}
-        {marker ? (
-          <Popup
-            longitude={marker.center[0]}
-            latitude={marker.center[1]}
-            onClose={() => dispatch(setPin(null))}
-            focusAfterOpen={false}
+          </Box>
+          <Map
+            ref={mapRef}
+            initialViewState={initialView}
+            {...viewState}
+            onMove={(event) => setViewState(event.viewState)}
+            style={{ width: '100%', height: '100%' }}
+            mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
+            mapboxAccessToken={MAPBOX_TOKEN}
           >
-            <Container>
-              <Box py={'2'}>
-                <Text fontSize={'medium'} lineHeight={'5'}>
-                  {marker.place_name}
-                </Text>
-              </Box>
-              <Box py={'2'}>
-                <HStack spacing={'4'}>
-                  <Tag
-                    size={'md'}
-                    key={'md'}
-                    variant='solid'
-                    color={'white'}
-                    bg={'brand.900'}
-                    py={'2'}
-                    px={'4'}
-                    onClick={() => {
-                      drawerHandler(true);
-                    }}
-                    css={{ cursor: 'pointer' }}
-                  >
-                    <TagLeftIcon boxSize='12px' as={AddIcon} />
-                    <TagLabel>Add to Map</TagLabel>
-                  </Tag>
-                </HStack>
-              </Box>
-            </Container>
-          </Popup>
-        ) : null}
-      </Map>
+            <GeoCode position='top-right' mapboxAccessToken={MAPBOX_TOKEN} />
+            <NavigationControl position='bottom-right' />
+            {pins}
+            {popupInfo && (
+              <Popup
+                anchor='bottom'
+                longitude={popupInfo.attributes.lng}
+                latitude={popupInfo.attributes.lat}
+                onClose={() => setPopupInfo(null)}
+                offset={40}
+                focusAfterOpen={false}
+                maxWidth='none'
+              >
+                <MarkerPopup
+                  place={popupInfo}
+                  setView={() => setViewState(initialView)}
+                  updatePins={() => getUpdatedAllPins()}
+                  closePopup={() => setPopupInfo(null)}
+                  loadDeleteToast={() => loadDeleteToast()}
+                  loadEditToast={() => loadEditToast()}
+                />
+              </Popup>
+            )}
+            {marker ? (
+              <Popup
+                longitude={marker.center[0]}
+                latitude={marker.center[1]}
+                onClose={() => dispatch(setPin(null))}
+                focusAfterOpen={false}
+              >
+                <Container>
+                  <Box py={'2'}>
+                    <Text fontSize={'medium'} lineHeight={'5'}>
+                      {marker.place_name}
+                    </Text>
+                  </Box>
+                  <Box py={'2'}>
+                    <HStack spacing={'4'}>
+                      <Tag
+                        size={'md'}
+                        key={'md'}
+                        variant='solid'
+                        color={'white'}
+                        bg={'brand.900'}
+                        py={'2'}
+                        px={'4'}
+                        onClick={() => {
+                          drawerHandler(true);
+                        }}
+                        css={{ cursor: 'pointer' }}
+                      >
+                        <TagLeftIcon boxSize='12px' as={AddIcon} />
+                        <TagLabel>Add to Map</TagLabel>
+                      </Tag>
+                    </HStack>
+                  </Box>
+                </Container>
+              </Popup>
+            ) : null}
+          </Map>
+        </Box>
+      </Flex>
     </>
   );
 };

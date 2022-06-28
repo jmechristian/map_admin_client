@@ -236,21 +236,7 @@ const ProjectMap = ({ places }) => {
       </Box>
       <Map
         ref={mapRef}
-        initialViewState={
-          isMobile
-            ? {
-                longitude: -77.0307193335218,
-                latitude: 38.87225889119998,
-                zoom: 10,
-                pitch: 70,
-              }
-            : {
-                longitude: -77.0307193335218,
-                latitude: 38.87225889119998,
-                zoom: 12,
-                pitch: 70,
-              }
-        }
+        initialViewState={initialView}
         {...viewState}
         onMove={(event) => setViewState(event.viewState)}
         style={{ width: '100%', height: '100%' }}

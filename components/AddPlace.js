@@ -282,6 +282,7 @@ const AddPlace = ({
                   onClick={submitHandler}
                   isLoading={isLoading}
                   loadingText='Submitting...'
+                  _hover={{ bgColor: 'brand.900' }}
                 >
                   Add to Map
                 </Button>

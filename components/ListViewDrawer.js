@@ -28,7 +28,7 @@ const ListViewDrawer = ({
       center: [item.attributes.lng, item.attributes.lat],
       zoom: 14,
       duration: 2000,
-      offset: isMobile ? [0, 150] : [0, 80],
+      offset: isMobile ? [0, 250] : [0, 80],
       pitch: 70,
       bearing: 0,
       essential: true,

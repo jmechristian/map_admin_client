@@ -26,7 +26,7 @@ const MarkerPopup = ({
   const [openEditModal, setOpenEditModal] = useState(false);
 
   const department = place.attributes.department.data.attributes.name;
-  const gallery = place.attributes.gallery;
+  const hero = place.attributes.hero;
 
   const closeModal = () => setOpenEditModal(false);
 
@@ -53,11 +53,11 @@ const MarkerPopup = ({
       />
       <Box bg='white' width={'250px'}>
         <Flex direction={'column'} padding='6px'>
-          {gallery.data ? (
+          {hero.data ? (
             <Box marginBottom={'10px'}>
               <Image
                 boxSize={'100%'}
-                src={`${gallery.data[0].attributes.formats.thumbnail.url}`}
+                src={`${hero.data.attributes.formats.thumbnail.url}`}
                 alt={
                   place.attributes
                     ? place.attributes.name

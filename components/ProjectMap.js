@@ -249,6 +249,7 @@ const ProjectMap = ({ places }) => {
             style={{ width: '100%', height: '100%' }}
             mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
             mapboxAccessToken={MAPBOX_TOKEN}
+            onClick={(evt) => console.log(evt)}
           >
             <GeoCode position='top-right' mapboxAccessToken={MAPBOX_TOKEN} />
             <NavigationControl position='bottom-right' />

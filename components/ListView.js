@@ -40,6 +40,12 @@ const ListView = ({
 
   const [isMobile] = useMediaQuery('(max-width: 500px)');
 
+  const sortedPins = _.orderBy(
+    allPins,
+    [(c) => c.attributes.name, 'name'],
+    ['asc']
+  );
+
   return (
     <AnimatePresence>
       {openListView && (
@@ -76,7 +82,7 @@ const ListView = ({
             </Flex>
             <Box>
               <List spacing={3}>
-                {allPins.map((item, index) => (
+                {sortedPins.map((item, index) => (
                   <ListItem key={index} cursor='pointer'>
                     <Flex alignItems={'center'}>
                       <Flex

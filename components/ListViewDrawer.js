@@ -14,6 +14,7 @@ import {
   useMediaQuery,
 } from '@chakra-ui/react';
 import { LocationMarkerIcon, ExternalLinkIcon } from '@heroicons/react/solid';
+import { orderBy } from 'lodash';
 
 const ListViewDrawer = ({
   openListView,
@@ -40,6 +41,14 @@ const ListViewDrawer = ({
     setPopupInfo(item);
   };
 
+  const sortedPins = _.orderBy(
+    allPins,
+    [(c) => c.attributes.name, 'name'],
+    ['asc']
+  );
+
+  console.log(sortedPins);
+
   const [isMobile] = useMediaQuery('(max-width: 500px)');
 
   return (
@@ -58,7 +67,7 @@ const ListViewDrawer = ({
 
         <DrawerBody>
           <List spacing={3}>
-            {allPins.map((item, index) => (
+            {sortedPins.map((item, index) => (
               <ListItem key={index} cursor='pointer'>
                 <Flex alignItems={'center'}>
                   <Flex onClick={() => flyToMarker(item)} alignItems={'center'}>

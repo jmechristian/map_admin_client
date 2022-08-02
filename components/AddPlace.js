@@ -39,6 +39,7 @@ const AddPlace = ({
   const [lng, setLng] = useState('');
   const [lat, setLat] = useState('');
   const [name, setName] = useState('');
+  const [size, setSize] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [department, setDepartment] = useState('');
@@ -47,6 +48,7 @@ const AddPlace = ({
   const [checkboxValue, setCheckboxValue] = useState([]);
   const [structure, setStructureType] = useState();
   const [subcategory, setSubcategory] = useState();
+  const [collaborators, setCollaborators] = useState();
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
 
@@ -76,6 +78,8 @@ const AddPlace = ({
         createdAt: Date.now(),
         createBy: user.user.user.username,
         link: link,
+        size: size,
+        collaborators: collaborators,
       },
     };
 
@@ -154,7 +158,7 @@ const AddPlace = ({
 
   return (
     <>
-      <Drawer isOpen={open} onClose={() => closeDrawer(false)} size={'md'}>
+      <Drawer isOpen={open} onClose={() => closeDrawer(false)} size={'lg'}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
@@ -174,23 +178,41 @@ const AddPlace = ({
                       focusBorderColor='brand.900'
                     />
                   </Box>
-                  <Box py={2}>
-                    <FormLabel htmlFor='dept'>Department*</FormLabel>
-                    <Select
-                      placeholder='Select Department'
-                      id='dept'
-                      color='gray.500'
-                      onChange={selectHandler}
-                      borderColor={'gray.300'}
-                      focusBorderColor='brand.900'
-                    >
-                      <option value='architecture'>Architecture</option>
-                      <option value='commercial'>Commercial Interiors</option>
-                      <option value='residential'>Residential Interiors</option>
-                      <option value='akres'>AkRes</option>
-                      <option value='branding'>Branding &amp; Marketing</option>
-                    </Select>
-                  </Box>
+                  <Flex py={2} justifyContent='space-between'>
+                    <Box>
+                      <FormLabel htmlFor='dept'>Department*</FormLabel>
+                      <Select
+                        placeholder='Select Department'
+                        id='dept'
+                        color='gray.500'
+                        onChange={selectHandler}
+                        borderColor={'gray.300'}
+                        focusBorderColor='brand.900'
+                      >
+                        <option value='architecture'>Architecture</option>
+                        <option value='commercial'>Commercial Interiors</option>
+                        <option value='residential'>
+                          Residential Interiors
+                        </option>
+                        <option value='akres'>AkRes</option>
+                        <option value='branding'>
+                          Branding &amp; Marketing
+                        </option>
+                      </Select>
+                    </Box>
+                    <Box>
+                      <FormLabel htmlFor='name'>Size</FormLabel>
+                      <Input
+                        id='size'
+                        placeholder='Project Size'
+                        type='text'
+                        borderColor={'gray.300'}
+                        value={size ? size : ''}
+                        onChange={(e) => setSize(e.target.value)}
+                        focusBorderColor='brand.900'
+                      />
+                    </Box>
+                  </Flex>
                   <Flex py={2} justifyContent='space-between'>
                     <Box>
                       <FormLabel htmlFor='sub'>Subcategory</FormLabel>
@@ -258,6 +280,16 @@ const AddPlace = ({
                       onChange={(e) => setDescription(e.target.value)}
                       borderColor={'gray.300'}
                       focusBorderColor='brand.900'
+                    />
+                  </Box>
+                  <Box py={2}>
+                    <FormLabel htmlFor='name'>Collaborators</FormLabel>
+                    <Textarea
+                      placeholder='Add optional project collaborators'
+                      onChange={(e) => setCollaborators(e.target.value)}
+                      borderColor={'gray.300'}
+                      focusBorderColor='brand.900'
+                      noOfLines={'2'}
                     />
                   </Box>
                   <Box py={2}>

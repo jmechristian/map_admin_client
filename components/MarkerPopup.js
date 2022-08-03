@@ -71,9 +71,9 @@ const MarkerPopup = ({
           <Flex>
             <Text color={'gray.500'} fontSize={'xs'} fontStyle={'italic'}>
               {department ? department : ''}
-              {place.attributes.subcategory.data
+              {place.attributes.subcategories.data.length > 0
                 ? ', ' +
-                  place.attributes.subcategory.data.attributes.subcategory
+                  place.attributes.subcategories.data[0].attributes.subcategory
                 : ''}
               {place.attributes.building_type.data
                 ? ', ' + place.attributes.building_type.data.attributes.type

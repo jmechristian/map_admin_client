@@ -24,21 +24,22 @@ const ListViewDrawer = ({
   setPopupInfo,
 }) => {
   const flyToMarker = (item) => {
-    closeListView();
-    map.flyTo({
-      center: [item.attributes.lng, item.attributes.lat],
-      zoom: 14,
-      duration: 2000,
-      offset: isMobile ? [0, 200] : [0, 80],
-      pitch: 70,
-      bearing: 0,
-      essential: true,
-      curve: 0.7,
-      easing: function (t) {
-        return 1 - Math.pow(1 - t, 5);
-      },
-    });
-    setPopupInfo(item);
+    // closeListView();
+    // map.flyTo({
+    //   center: [item.attributes.lng, item.attributes.lat],
+    //   zoom: 14,
+    //   duration: 2000,
+    //   offset: isMobile ? [0, 200] : [0, 80],
+    //   pitch: 70,
+    //   bearing: 0,
+    //   essential: true,
+    //   curve: 0.7,
+    //   easing: function (t) {
+    //     return 1 - Math.pow(1 - t, 5);
+    //   },
+    // });
+    // setPopupInfo(item);
+    console.log(item);
   };
 
   const sortedPins = _.orderBy(

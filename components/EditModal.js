@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {
@@ -26,20 +26,19 @@ const EditModal = ({
   closePopup,
   loadEditToast,
 }) => {
-  const [projectName, setProjectName] = useState(
-    place.attributes.name ? place.attributes.name : ''
-  );
-  const [projectDesc, setProjectDesc] = useState(
-    place.attributes.description ? place.attributes.description : ''
-  );
-
-  const [projLink, setProjLink] = useState(
-    place.attributes.link ? place.attributes.link : ''
-  );
-
   const user = useSelector((state) => state.user);
+  const { selectedPin } = useSelector((state) => state.pin);
+  const { id } = selectedPin;
 
-  const { id } = place;
+  const [projectName, setProjectName] = useState('');
+  const [projectDesc, setProjectDesc] = useState('');
+  const [projLink, setProjLink] = useState('');
+
+  useEffect(() => {
+    setProjectName(selectedPin.attributes.name);
+    setProjectDesc(selectedPin.attributes.description);
+    setProjLink(selectedPin.attributes.link);
+  }, [selectedPin]);
 
   const editSubmitHandler = async (e) => {
     e.preventDefault();

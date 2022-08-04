@@ -13,6 +13,9 @@ import {
 } from '@chakra-ui/react';
 import { LocationMarkerIcon, ExternalLinkIcon } from '@heroicons/react/solid';
 import CloseButton from './CloseButton';
+import { useDispatch } from 'react-redux';
+import { setSelectedPin } from '../data/pinSlice';
+import _ from 'lodash';
 
 const ListView = ({
   allPins,
@@ -21,6 +24,8 @@ const ListView = ({
   openListView,
   closeListView,
 }) => {
+  const dispatch = useDispatch();
+
   const flyToMarker = (item) => {
     map.flyTo({
       center: [item.attributes.lng, item.attributes.lat],
@@ -36,6 +41,7 @@ const ListView = ({
       },
     });
     setPopupInfo(item);
+    dispatch(setSelectedPin(item));
   };
 
   const [isMobile] = useMediaQuery('(max-width: 500px)');

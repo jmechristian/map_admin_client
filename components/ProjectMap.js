@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAllPins, setPin } from '../data/pinSlice';
+import { setAllPins, setPin, setSelectedPin } from '../data/pinSlice';
 import Map, {
   Popup,
   useControl,
@@ -34,7 +34,6 @@ import AddPlace from './AddPlace';
 import TopRightUI from './TopRightUI';
 import MarkerPopup from './MarkerPopup';
 import FilterDrawer from './FilterDrawer';
-import ListViewDrawer from './ListViewDrawer';
 import ListView from './ListView';
 
 const MAPBOX_TOKEN =
@@ -42,6 +41,7 @@ const MAPBOX_TOKEN =
 
 const ProjectMap = ({ places }) => {
   const { filteredPins } = useSelector((state) => state.filter);
+  const { selectedPin } = useSelector((state) => state.pin);
 
   useEffect(() => {
     if (filteredPins != null) {
@@ -169,7 +169,9 @@ const ProjectMap = ({ places }) => {
             // If we let the click event propagates to the map, it will immediately close the popup
             // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
+            dispatch(setSelectedPin(mark));
             setPopupInfo(mark);
+            // console.log(mark);
             mapRef.current.flyTo({
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
@@ -185,10 +187,10 @@ const ProjectMap = ({ places }) => {
             });
           }}
         >
-          <MarkerPin place={mark} />
+          <MarkerPin />
         </Marker>
       )),
-    [allPins, mapRef, isMobile]
+    [allPins, mapRef, isMobile, dispatch]
   );
 
   return (
@@ -215,13 +217,6 @@ const ProjectMap = ({ places }) => {
             closeFilter={() => setOpenFilters(false)}
             allPins={allPins}
           />
-          {/* <ListViewDrawer
-            openListView={openListView}
-            closeListView={() => setOpenListView(false)}
-            allPins={allPins}
-            map={mapRef.current}
-            setPopupInfo={setPopupInfo}
-          /> */}
           <Box
             position={'absolute'}
             top={'0'}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Flex,
@@ -24,6 +25,7 @@ const MarkerPopup = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [openEditModal, setOpenEditModal] = useState(false);
+  const { selectedPin } = useSelector((state) => state.pin);
 
   const department = place.attributes.department.data.attributes.name;
   const hero = place.attributes.hero;
@@ -35,7 +37,7 @@ const MarkerPopup = ({
       <DeleteAlert
         isOpen={isOpen}
         onClose={onClose}
-        id={place.id}
+        id={selectedPin.id}
         setView={setView}
         updatePins={updatePins}
         closePopup={closePopup}

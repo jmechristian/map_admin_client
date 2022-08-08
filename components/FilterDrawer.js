@@ -42,15 +42,12 @@ const FilterDrawer = ({ openFilter, closeFilter, allPins }) => {
     return count;
   };
 
-  const getSubCount = (value) => {
-    const count = allPins.filter(
-      (proj) =>
-        proj.attributes.subcategory.data != null &&
-        proj.attributes.subcategory.data.attributes.subcategory === value
-    ).length;
+  // const getSubCount = (value) => {
+  //   const items = allPins.filter(
+  //    (proj => )
 
-    return count;
-  };
+  //   return count;
+  // };
 
   return (
     <Drawer
@@ -73,30 +70,20 @@ const FilterDrawer = ({ openFilter, closeFilter, allPins }) => {
               id='dept'
               onChange={(e) => dispatch(setDepartment(e.target.value))}
               borderColor={'gray.300'}
-              value={department}
+              value={department ? department : ''}
             >
-              <option value='Architecture'>
-                Architecture &#40;{getCount('Architecture')}&#41;
-              </option>
-              <option value='Commercial interiors'>
-                Commercial Interiors &#40;{getCount('Commercial interiors')}
-                &#41;
-              </option>
+              <option value='Architecture'>Architecture</option>
+              <option value='Commercial Interiors'>Commercial Interiors</option>
               <option value='Residential Interiors'>
-                Residential Interiors &#40;{getCount('Residential Interiors')}
-                &#41;
+                Residential Interiors
               </option>
-              <option value='Akseizer Residential'>
-                Akseizer Residential &#40;{getCount('Akseizer Residential')}
-                &#41;
-              </option>
+              <option value='Akseizer Residential'>Akseizer Residential</option>
               <option value='Branding and Marketing'>
-                Branding &amp; Marketing &#40;
-                {getCount('Branding and Marketing')}&#41;
+                Branding &amp; Marketing
               </option>
             </Select>
           </Box>
-          {department != '' ? (
+          {/* {department != '' ? (
             <Stack spacing={2} direction={'column'}>
               <Box py={'2'}>
                 <FormLabel htmlFor='subcategory'>Subcategory</FormLabel>
@@ -129,7 +116,7 @@ const FilterDrawer = ({ openFilter, closeFilter, allPins }) => {
             </Stack>
           ) : (
             ''
-          )}
+          )} */}
         </DrawerBody>
 
         <DrawerFooter>

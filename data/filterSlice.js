@@ -5,7 +5,7 @@ export const filterSlice = createSlice({
   initialState: {
     allThePins: null,
     filteredPins: null,
-    department: '',
+    department: null,
     subcategories: ['Multi-Family', 'Single-Family', 'Rowhomes', 'Commercial'],
     selectedSubcategories: null,
   },
@@ -15,6 +15,12 @@ export const filterSlice = createSlice({
     },
     setDepartment: (state, action) => {
       state.department = action.payload;
+      const allPinsSpread = [...state.allThePins];
+      const filterByDept = allPinsSpread.filter(
+        (proj) =>
+          proj.attributes.department.data.attributes.name === state.department
+      );
+      state.filteredPins = filterByDept;
     },
     setSubcategories: (state, action) => {
       state.selectedSubcategories = action.payload;

@@ -9,7 +9,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  FormHelperText,
   Drawer,
   DrawerContent,
   DrawerOverlay,
@@ -17,13 +16,11 @@ import {
   DrawerHeader,
   DrawerBody,
   Select,
-  Spacer,
   Text,
   Textarea,
   useDisclosure,
   Checkbox,
   CheckboxGroup,
-  Stack,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
@@ -47,7 +44,7 @@ const AddPlace = ({
   const [isLoading, setIsLoading] = useState(false);
   const [checkboxValue, setCheckboxValue] = useState([]);
   const [structure, setStructureType] = useState();
-  const [subcategory, setSubcategory] = useState();
+  const [subcategory, setSubcategory] = useState([]);
   const [collaborators, setCollaborators] = useState();
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.user);
@@ -72,7 +69,7 @@ const AddPlace = ({
         address: address,
         description: description,
         department: department,
-        subcategory: parseInt(subcategory),
+        subcategories: subcategory,
         project_types: checkboxValue,
         building_type: structure,
         createdAt: Date.now(),
@@ -105,6 +102,9 @@ const AddPlace = ({
         .then((res) => {
           if (res.status == '200') {
             closeDrawer(false);
+            setName('');
+            setSize('');
+            setSubcategory([]);
             setView();
             dispatch(setPin(null));
             updatePins();
@@ -220,7 +220,9 @@ const AddPlace = ({
                         placeholder='Select Subcategory'
                         id='sub'
                         color='gray.500'
-                        onChange={(e) => setSubcategory(e.target.value)}
+                        onChange={(e) =>
+                          setSubcategory([...subcategory, e.target.value])
+                        }
                         borderColor={'gray.300'}
                         focusBorderColor='brand.900'
                       >

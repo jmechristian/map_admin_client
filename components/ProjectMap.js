@@ -254,7 +254,10 @@ const ProjectMap = ({ places }) => {
                 anchor='bottom'
                 longitude={popupInfo.attributes.lng}
                 latitude={popupInfo.attributes.lat}
-                onClose={() => setPopupInfo(null)}
+                onClose={() => {
+                  setPopupInfo(null);
+                  dispatch(setSelectedPin(null));
+                }}
                 offset={40}
                 focusAfterOpen={false}
                 maxWidth='none'

@@ -22,7 +22,6 @@ const DeleteAlert = ({
 }) => {
   const user = useSelector((state) => state.user);
   const cancelRef = useRef();
-  console.log(id);
 
   const deleteHandler = async () => {
     const res = await axios

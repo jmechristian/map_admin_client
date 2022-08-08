@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MarkerPin = () => {
+const MarkerPin = ({ category }) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -10,7 +10,7 @@ const MarkerPin = () => {
       <g>
         <path
           style={{
-            fill: '#D31B5D',
+            fill: category === 'Commercial interiors' ? '#e63b78' : '#d31b5d',
             stroke: '#FFFFFF',
             strokeWidth: '1',
             strokeMiterlimit: '10',

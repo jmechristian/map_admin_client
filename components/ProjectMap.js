@@ -171,7 +171,7 @@ const ProjectMap = ({ places }) => {
             e.originalEvent.stopPropagation();
             dispatch(setSelectedPin(mark));
             setPopupInfo(mark);
-            // console.log(mark);
+            console.log(mark.attributes.department.data.attributes.name);
             mapRef.current.flyTo({
               center: [mark.attributes.lng, mark.attributes.lat],
               zoom: 14,
@@ -187,7 +187,9 @@ const ProjectMap = ({ places }) => {
             });
           }}
         >
-          <MarkerPin />
+          <MarkerPin
+            category={mark.attributes.department.data.attributes.name}
+          />
         </Marker>
       )),
     [allPins, mapRef, isMobile, dispatch]
@@ -244,7 +246,6 @@ const ProjectMap = ({ places }) => {
             style={{ width: '100%', height: '100%' }}
             mapStyle='mapbox://styles/adg-branding/cl47jmywy003p15rmjzucu62i'
             mapboxAccessToken={MAPBOX_TOKEN}
-            onClick={(evt) => console.log(evt)}
           >
             <GeoCode position='top-right' mapboxAccessToken={MAPBOX_TOKEN} />
             <NavigationControl position='bottom-right' />

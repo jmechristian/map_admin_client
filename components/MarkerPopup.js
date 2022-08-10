@@ -94,7 +94,7 @@ const MarkerPopup = ({
           </Box>
           <Flex justifyContent={'space-between'}>
             <Box>
-              {place.attributes.link || place.attributes.link != 'null' ? (
+              {place.attributes.link && place.attributes.link != 'null' ? (
                 <HStack spacing={'4'}>
                   <Tag
                     size={'md'}

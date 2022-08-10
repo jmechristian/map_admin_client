@@ -100,7 +100,7 @@ const ListView = ({
                           {item.attributes.name}
                         </Text>
                       </Flex>
-                      {item.attributes.link ||
+                      {item.attributes.link &&
                       item.attributes.link != 'null' ? (
                         <Link href={item.attributes.link} isExternal>
                           <ListIcon

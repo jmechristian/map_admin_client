@@ -53,7 +53,11 @@ const EditModal = ({
     setProjectName(selectedPin.attributes.name);
     setProjectDesc(selectedPin.attributes.description);
     setProjLink(selectedPin.attributes.link);
-    setStructureType(selectedPin.attributes.building_type.data.id);
+    setStructureType(
+      selectedPin.attributes.building_type.data
+        ? selectedPin.attributes.building_type.data.id
+        : ''
+    );
     setCollaborators(selectedPin.attributes.collaborators);
     setSize(selectedPin.attributes.size);
   }, [selectedPin]);

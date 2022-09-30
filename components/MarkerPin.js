@@ -10,7 +10,7 @@ const MarkerPin = ({ category }) => {
       <g>
         <path
           style={{
-            fill: category === 'Commercial Interiors' ? '#e63b78' : '#d31b5d',
+            fill: category === 'Commercial Interiors' ? '#BA6893' : '#d31b5d',
             stroke: '#FFFFFF',
             strokeWidth: '1',
             strokeMiterlimit: '10',

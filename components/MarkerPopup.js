@@ -109,7 +109,7 @@ const MarkerPopup = ({
                   >
                     <TagLabel fontSize={'sm'}>
                       <a
-                        href={`${place.attributes.link}`}
+                        href={`https://${department}.designadg.com${place.attributes.link}`}
                         target='_blank'
                         rel='noreferrer'
                       >

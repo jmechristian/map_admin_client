@@ -230,6 +230,10 @@ const AddPlace = ({
                         <option value='2'>Single-Family</option>
                         <option value='3'>Rowhomes</option>
                         <option value='4'>Commercial</option>
+                        <option value='6'>Corporate</option>
+                        <option value='7'>Apartments</option>
+                        <option value='8'>Condominiums & Townhomes</option>
+                        <option value='9'>Non-Profit</option>
                       </Select>
                     </Box>
                     <Box>
